@@ -180,57 +180,101 @@ class DoctorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _textController = TextEditingController();
+    final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
+
     return Padding(
       padding: const EdgeInsets.all(0),
       child: Container(
         alignment: AlignmentDirectional.center,
         padding: EdgeInsets.all(1),
         color: Colors.white,
-        child: BlocBuilder<DoctorBloc, DoctorState>(builder: (context, state) {
-          if (state is DoctorLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is ChossenDoctor) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("hello"),
-              ),
-            );
-          }
-          if (state is DoctorLoaded) {
-            final doctors = state.doctor;
-
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              height: 50,
+              width: 200,
               child: Material(
-                child: ListView.builder(
-                  itemCount: doctors.length,
-                  itemBuilder: (context, index) {
-                    final doctor = doctors[index];
-
-                    // Customize the DoctorEntity widget as needed
-                    return ListTile(
-                      onTap: () {
-                        context
-                            .read<DoctorBloc>()
-                            .add(onDoctorChoose(doctor: doctor));
+                color: Colors.green,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: TextField(
+                      style: TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                      controller: _textController,
+                      onChanged: (text) {
+                        dataBloc.add(onDoctorsearchByName(doctorName: text));
                       },
-                      title: Text(doctor.firstName),
-                      subtitle: Text(doctor.lastName),
-                      // Add more fields as needed
-                    );
-                  },
+                      decoration: InputDecoration(
+                          hintText: "Doctor's name",
+                          hintStyle: TextStyle(color: Colors.white)),
+                    ),
+                  ),
                 ),
               ),
-            );
-          }
-          if (state is DoctorLoadingFailure) {
-            return Center(
-              child: Text(state.message),
-            );
-          }
-          return Container();
-        }),
+            ),
+            Expanded(
+              child: BlocBuilder<DoctorBloc, DoctorState>(
+                  builder: (context, state) {
+                if (state is DoctorLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (state is ChossenDoctor) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: Text("hello"),
+                    ),
+                  );
+                }
+                if (state is DoctorLoaded) {
+                  final doctors = state.doctor;
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Material(
+                            child: ListView.builder(
+                              itemCount: doctors.length,
+                              itemBuilder: (context, index) {
+                                final doctor = doctors[index];
+
+                                // Customize the DoctorEntity widget as needed
+                                return ListTile(
+                                  // onTap: () {
+                                  //   context
+                                  //       .read<DoctorBloc>()
+                                  //       .add(onDoctorChoose(doctor: doctor));
+                                  // },
+                                  title: Text(doctor.firstName),
+                                  subtitle: Text(doctor.lastName),
+                                  // Add more fields as needed
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                if (state is DoctorLoadingFailure) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+                return Container();
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

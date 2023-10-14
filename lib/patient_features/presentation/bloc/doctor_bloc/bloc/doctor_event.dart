@@ -24,3 +24,12 @@ class doctorsInfoUpdated extends DoctorEvent {
   @override
   List<Object> get props => [doctors];
 }
+
+class onDoctorsearchByName extends DoctorEvent {
+  final String doctorName;
+
+  onDoctorsearchByName({required this.doctorName});
+
+  @override
+  List<Object> get props => [doctorName];
+}

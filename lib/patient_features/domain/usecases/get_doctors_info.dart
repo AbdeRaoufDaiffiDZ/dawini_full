@@ -8,8 +8,12 @@ class GetDoctorsInfoUseCase {
 
   GetDoctorsInfoUseCase({required this.doctorRepository});
 
-  Future<Either<Failure, List<DoctorEntity>>> excute() async {
-    return doctorRepository.getDoctorsInfo();
+  Future<List<DoctorEntity>> excute() async {
+    Either<Failure, List<DoctorEntity>> info;
+    info = await doctorRepository.getDoctorsInfo();
+
+    return info.fold(
+        (l) => throw (ServerFailure(message: l.message)), (r) => r);
   }
 }
 

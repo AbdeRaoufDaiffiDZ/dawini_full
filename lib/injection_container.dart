@@ -29,7 +29,7 @@ Future<void> setupLocator() async {
 
   // bloc
   // locator.registerFactory(() => WeatherBloc(locator()));
-  locator.registerFactory(() => DoctorBloc(locator()));
+  locator.registerFactory(() => DoctorBloc(locator(), locator()));
   locator.registerFactory(() => DoctorAuthBloc(locator()));
   locator.registerFactory(() => IntroductionBloc(locator(), locator(),
       locator(), locator(), locator(), locator(), locator()));
