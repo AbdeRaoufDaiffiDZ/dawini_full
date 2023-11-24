@@ -11,6 +11,7 @@ import 'package:dawini_full/introduction_feature/presentation/screens/pages_show
 import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/doctor_auth_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,12 @@ Future<void> main() async {
   );
 
   setupLocator();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
@@ -64,10 +71,16 @@ class _MyWidgetState extends State<MyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Size device_size = MediaQuery.of(context).size;
+
     if (status) {
-      return DoctorPage();
+      return DoctorPage(
+        device_size: device_size,
+      );
     } else {
-      return PagesShower();
+      return PagesShower(
+        size: device_size,
+      );
     }
   }
 

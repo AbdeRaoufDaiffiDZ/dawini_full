@@ -1,182 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:dawini_full/core/constants/constants.dart';
-import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/doctor_auth_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
-import 'package:dawini_full/patient_features/presentation/bloc/weather_bloc.dart';
-import 'package:dawini_full/patient_features/presentation/bloc/weather_event.dart';
-import 'package:dawini_full/patient_features/presentation/bloc/weather_state.dart';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeatherPage extends StatelessWidget {
-  const WeatherPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          "WEATHER",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                hintText: 'Enter city name',
-                fillColor: const Color(0xffF3F3F3),
-                filled: true,
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              onChanged: (value) {
-                context.read<WeatherBloc>().add(onCityChanged(cityName: value));
-              },
-            ),
-            SizedBox(
-              height: 32.0,
-            ),
-            BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state) {
-              if (state is WeatherLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
-
-              if (state is WeatherLoaded) {
-                return Column(
-                  key: const Key('weather_data'),
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          state.result.cityName,
-                          style: const TextStyle(
-                            fontSize: 22.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      '${state.result.main} | ${state.result.description}',
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                    const SizedBox(height: 24.0),
-                    Table(
-                      defaultColumnWidth: const FixedColumnWidth(150.0),
-                      border: TableBorder.all(
-                        color: Colors.grey,
-                        style: BorderStyle.solid,
-                        width: 1,
-                      ),
-                      children: [
-                        TableRow(children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Temperature',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              state.result.temperature.toString(),
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                letterSpacing: 1.2,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ), // Will be change later
-                        ]),
-                        TableRow(children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Pressure',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              state.result.pressure.toString(),
-                              style: const TextStyle(
-                                  fontSize: 16.0,
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ), // Will be change later
-                        ]),
-                        TableRow(children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Humidity',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              state.result.humidity.toString(),
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                letterSpacing: 1.2,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ), // Will be change later
-                        ]),
-                      ],
-                    ),
-                  ],
-                );
-              }
-              if (state is WeatherLoadedFailue) {
-                return Center(
-                  child: Text(state.message),
-                );
-              }
-              return Container();
-            })
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class DoctorPage extends StatelessWidget {
-  const DoctorPage({super.key});
+  final Size device_size;
+  DoctorPage({super.key, required this.device_size});
 
   @override
   Widget build(BuildContext context) {
@@ -200,9 +33,9 @@ class DoctorPage extends StatelessWidget {
               child: Material(
                 color: Colors.green,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Center(
                     child: TextField(
                       style: TextStyle(color: Colors.white),
@@ -228,7 +61,7 @@ class DoctorPage extends StatelessWidget {
                 if (state is ChossenDoctor) {
                   return Scaffold(
                     appBar: AppBar(
-                      title: Text("hello"),
+                      title: Text("HERE"),
                     ),
                   );
                 }
@@ -248,11 +81,11 @@ class DoctorPage extends StatelessWidget {
 
                                 // Customize the DoctorEntity widget as needed
                                 return ListTile(
-                                  // onTap: () {
-                                  //   context
-                                  //       .read<DoctorBloc>()
-                                  //       .add(onDoctorChoose(doctor: doctor));
-                                  // },
+                                  onTap: () {
+                                    context
+                                        .read<DoctorBloc>()
+                                        .add(onDoctorChoose(doctor: doctor));
+                                  },
                                   title: Text(doctor.firstName),
                                   subtitle: Text(doctor.lastName),
                                   // Add more fields as needed

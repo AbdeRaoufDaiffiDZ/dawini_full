@@ -6,5 +6,5 @@ abstract class IntroductionRepository {
   Stream<String> choosenLanguage();
 
   Future<String> setType(String type);
-  Future<String> getType();
+  Stream<String> getType();
 }

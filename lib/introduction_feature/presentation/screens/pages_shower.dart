@@ -1,13 +1,13 @@
 import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduction_bloc.dart';
 import 'package:dawini_full/introduction_feature/presentation/screens/pages/languageScreen.dart';
 import 'package:dawini_full/introduction_feature/presentation/screens/pages/typeScreen.dart';
-import 'package:dawini_full/introduction_feature/presentation/screens/pages/welcomeScreen.dart';
 import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PagesShower extends StatefulWidget {
-  const PagesShower({super.key});
+  final Size size;
+  const PagesShower({super.key, required this.size});
 
   @override
   State<PagesShower> createState() => _PagesShowerState();
@@ -16,22 +16,38 @@ class PagesShower extends StatefulWidget {
 class _PagesShowerState extends State<PagesShower> {
   @override
   Widget build(BuildContext context) {
+    final IntroductionBloc bloc = BlocProvider.of<IntroductionBloc>(context);
+
     return BlocBuilder<IntroductionBloc, IntroductionState>(
       builder: (context, state) {
         if (state is LanguageState) {
-          return LanguageScreen(Language: state.language);
+          return LanguageScreen(
+            Language: state.language,
+            device_size: widget.size,
+          );
         } else if (state is TypeState) {
-          return const TypeScreen();
-        } else if (state is LanguageState) {
-          return const TypeScreen();
+          return TypeScreen(
+            type: state.type,
+            device_size: widget.size,
+          );
         } else if (state is LoadingState) {
           return const CircularProgressIndicator.adaptive(
             backgroundColor: Colors.green,
           );
         } else if (state is IgnoreIntorductionState) {
-          return const DoctorPage();
+          if (state.Screen == 'doctor') {
+            return DoctorPage(
+              device_size: widget.size,
+            );
+          } else {
+            /////////////////////////////////////    here you will go to patients screen
+            bloc.add(NextPage(id: 1));
+            return Center();
+          }
         } else {
-          return const WelcomeScreen();
+          bloc.add(NextPage(id: 1));
+
+          return Center();
         }
       },
     );
