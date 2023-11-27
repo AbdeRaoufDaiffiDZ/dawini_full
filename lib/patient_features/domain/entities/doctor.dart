@@ -4,9 +4,11 @@ class DoctorEntity extends Equatable {
   final String firstName;
   final String lastName;
   final String phoneNumber;
+  final String wilaya;
 
   DoctorEntity(
-      {required this.firstName,
+      {required this.wilaya,
+      required this.firstName,
       required this.lastName,
       required this.phoneNumber});
 

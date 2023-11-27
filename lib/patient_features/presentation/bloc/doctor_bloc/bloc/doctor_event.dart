@@ -33,3 +33,12 @@ class onDoctorsearchByName extends DoctorEvent {
   @override
   List<Object> get props => [doctorName];
 }
+
+class onDoctorsearchByWilaya extends DoctorEvent {
+  final String wilaya;
+
+  onDoctorsearchByWilaya({required this.wilaya});
+
+  @override
+  List<Object> get props => [wilaya];
+}

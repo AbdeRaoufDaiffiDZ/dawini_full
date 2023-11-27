@@ -4,13 +4,18 @@ class DoctorModel extends DoctorEntity {
   final String firstName;
   final String lastName;
   final String phoneNumber;
+  final String wilaya;
 
   DoctorModel(
-      {required this.firstName,
+      {required this.wilaya,
+      required this.firstName,
       required this.lastName,
       required this.phoneNumber})
       : super(
-            firstName: firstName, lastName: lastName, phoneNumber: phoneNumber);
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            wilaya: wilaya);
 
   @override
   // TODO: implement props
@@ -29,9 +34,13 @@ class DoctorModel extends DoctorEntity {
       firstName: json['firstName'],
       lastName: json['lastName'],
       phoneNumber: json['phoneNumber'],
+      wilaya: json['Wilaya'],
     );
   }
 
   DoctorEntity toEntity() => DoctorEntity(
-      firstName: firstName, lastName: lastName, phoneNumber: phoneNumber);
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      wilaya: wilaya);
 }
