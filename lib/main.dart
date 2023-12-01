@@ -1,3 +1,4 @@
+import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
 import 'package:dawini_full/splashes/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduc
 import 'package:dawini_full/introduction_feature/presentation/screens/pages_shower.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/doctor_auth_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
-import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {

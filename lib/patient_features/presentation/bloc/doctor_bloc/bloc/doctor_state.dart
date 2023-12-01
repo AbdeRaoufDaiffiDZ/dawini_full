@@ -13,8 +13,9 @@ final class DoctorLoading extends DoctorState {}
 
 final class DoctorLoaded extends DoctorState {
   final List<DoctorEntity> doctor;
+  final event;
 
-  DoctorLoaded({required this.doctor});
+  DoctorLoaded({required this.event, required this.doctor});
 
   @override
   List<Object> get props => [doctor];

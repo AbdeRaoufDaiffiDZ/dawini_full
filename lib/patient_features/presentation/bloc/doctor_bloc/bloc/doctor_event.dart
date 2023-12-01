@@ -42,3 +42,5 @@ class onDoctorsearchByWilaya extends DoctorEvent {
   @override
   List<Object> get props => [wilaya];
 }
+
+class DoctorinitialEvent extends DoctorEvent {}

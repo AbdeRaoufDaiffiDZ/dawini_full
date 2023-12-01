@@ -25,12 +25,10 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<DoctorEvent>((event, emit) async {
       emit(DoctorLoading());
       if (event is doctorsInfoUpdated) {
-        emit(DoctorLoaded(doctor: event.doctors));
-      }
-      if (event is onDoctorChoose) {
+        emit(DoctorLoaded(doctor: event.doctors, event: event));
+      } else if (event is onDoctorChoose) {
         emit(ChossenDoctor(doctor: event.doctor));
-      }
-      if (event is onDoctorsearchByName) {
+      } else if (event is onDoctorsearchByName) {
         List<DoctorEntity> doctors;
         List<DoctorEntity> info;
         info = await getDoctorsInfoUseCase.excute();
@@ -43,11 +41,17 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
                   .toLowerCase()
                   .contains(event.doctorName.toLowerCase()))
               .toList();
+          if (doctors.isEmpty) {
+            doctors = info
+                .where((element) => element.firstName
+                    .toLowerCase()
+                    .contains(event.doctorName.toLowerCase()))
+                .toList();
+          }
         }
 
-        emit(DoctorLoaded(doctor: doctors));
-      }
-      if (event is onDoctorsearchByWilaya) {
+        emit(DoctorLoaded(doctor: doctors, event: event.doctorName));
+      } else if (event is onDoctorsearchByWilaya) {
         List<DoctorEntity> doctors;
         List<DoctorEntity> info;
         info = await getDoctorsInfoUseCase.excute();
@@ -62,13 +66,14 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
               .toList();
         }
 
-        emit(DoctorLoaded(doctor: doctors));
+        emit(DoctorLoaded(doctor: doctors, event: event));
+      } else if (event is DoctorinitialEvent) {
+        streamDoctors.excute().listen((event) {
+          add(doctorsInfoUpdated(doctors: event));
+        });
       }
     });
   }
-  // Future<void> clear() {
-  //   DoctorLoaded doctorLoaded = DoctorLoaded(doctor: );
-  // }
 
   @override
   Future<void> close() {

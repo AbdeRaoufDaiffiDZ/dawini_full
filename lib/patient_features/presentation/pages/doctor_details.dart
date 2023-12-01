@@ -1,7 +1,9 @@
+import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 
 class doctorDetails extends StatefulWidget {
-  const doctorDetails({super.key});
+  final DoctorEntity doctor;
+  const doctorDetails({super.key, required this.doctor});
 
   @override
   State<doctorDetails> createState() => _doctorDetailsState();
@@ -10,6 +12,12 @@ class doctorDetails extends StatefulWidget {
 class _doctorDetailsState extends State<doctorDetails> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final doctor = widget.doctor;
+
+    return Scaffold(
+      body: Center(
+        child: Text(doctor.firstName),
+      ),
+    );
   }
 }
