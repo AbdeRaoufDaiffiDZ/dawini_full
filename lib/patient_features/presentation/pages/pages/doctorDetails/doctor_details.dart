@@ -14,9 +14,19 @@ class _doctorDetailsState extends State<doctorDetails> {
   Widget build(BuildContext context) {
     final doctor = widget.doctor;
 
-    return Scaffold(
-      body: Center(
-        child: Text(doctor.firstName),
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              Text(doctor.firstName),
+              Text(doctor.lastName),
+              Text(doctor.atSerivce.toString()),
+              Text(doctor.speciality),
+              Text(doctor.phoneNumber)
+            ],
+          ),
+        ),
       ),
     );
   }

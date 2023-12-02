@@ -4,18 +4,18 @@ import 'package:dartz/dartz.dart';
 import 'package:dawini_full/core/error/exception.dart';
 import 'package:dawini_full/core/error/failure.dart';
 import 'package:dawini_full/patient_features/data/data_source/remote_data_source.dart';
-import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
-import 'package:dawini_full/patient_features/domain/repositories/doctor_repository.dart';
+import 'package:dawini_full/patient_features/domain/entities/clinic.dart';
+import 'package:dawini_full/patient_features/domain/repositories/clinic_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class DcotrRepositoryImpl implements DoctorRepository {
-  final DoctorRemoteDataSource doctorRemoteDataSource;
+class ClinicRepositoryImpl implements ClinicRepository {
+  final ClinicsRemoteDataSource clinicsRemoteDataSource;
 
-  DcotrRepositoryImpl({required this.doctorRemoteDataSource});
+  ClinicRepositoryImpl({required this.clinicsRemoteDataSource});
   @override
-  Future<Either<Failure, List<DoctorEntity>>> getDoctorsInfo() async {
+  Future<Either<Failure, List<ClinicEntity>>> getClincsInfo() async {
     try {
-      final result = await doctorRemoteDataSource.getDoctorsInfo();
+      final result = await clinicsRemoteDataSource.getClincsInfo();
       return Right(result);
     } on ServerException {
       return Left(ServerFailure(message: 'An error has occured'));
@@ -26,9 +26,9 @@ class DcotrRepositoryImpl implements DoctorRepository {
   }
 
   @override
-  Stream<List<DoctorEntity>> streamDoctors() {
+  Stream<List<ClinicEntity>> streamClincss() {
     try {
-      final result = doctorRemoteDataSource.streamDoctors();
+      final result = clinicsRemoteDataSource.streamClincss();
       return result;
     } on ServerException {
       throw ServerFailure(message: 'An error has occured');
@@ -38,9 +38,9 @@ class DcotrRepositoryImpl implements DoctorRepository {
   }
 
   @override
-  Future<Either<Failure, UserCredential>> authDoctor(email, password) async {
+  Future<Either<Failure, UserCredential>> authClinic(email, password) async {
     try {
-      final result = await doctorRemoteDataSource.authDoctor(email, password);
+      final result = await clinicsRemoteDataSource.authClinic(email, password);
       return Right(result);
     } on FirebaseAuthException catch (e) {
       return Left(AuthenticatinFailure(message: e.code));

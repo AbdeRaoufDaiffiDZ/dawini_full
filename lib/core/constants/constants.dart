@@ -6,5 +6,5 @@ class Urls {
   static String weatherIcon(String iconCode) =>
       'http://openweathermap.org/img/wn/$iconCode@2x.png';
   static String doctorInfoUrl() =>
-      'https://dawini-cec17-default-rtdb.europe-west1.firebasedatabase.app/doctors/.json';
+      'https://dawini-cec17-default-rtdb.europe-west1.firebasedatabase.app/doctorsList/.json';
 }

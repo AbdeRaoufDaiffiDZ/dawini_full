@@ -10,9 +10,13 @@ import 'package:dawini_full/introduction_feature/domain/usecases/set_type_usecas
 import 'package:dawini_full/introduction_feature/domain/usecases/user_type_usecase.dart';
 import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduction_bloc.dart';
 import 'package:dawini_full/patient_features/data/data_source/remote_data_source.dart';
+import 'package:dawini_full/patient_features/data/repositories/clinic_repository_impl.dart';
 import 'package:dawini_full/patient_features/data/repositories/doctor_repository_impl.dart';
+import 'package:dawini_full/patient_features/domain/repositories/clinic_repository.dart';
 import 'package:dawini_full/patient_features/domain/repositories/doctor_repository.dart';
+import 'package:dawini_full/patient_features/domain/usecases/clinic_auth_state_usecase.dart';
 import 'package:dawini_full/patient_features/domain/usecases/doctor_auth_satet_usecase.dart';
+import 'package:dawini_full/patient_features/domain/usecases/get_clinics_info.dart';
 import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/doctor_auth_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
@@ -43,6 +47,14 @@ Future<void> setupLocator() async {
       () => GetDoctorsStreamInfoUseCase(doctorRepository: locator()));
   locator.registerLazySingleton(
       () => DoctorAuthStateUseCase(repository: locator()));
+  // clinics part
+  locator.registerLazySingleton(
+      () => GetClinicsInfoUseCase(clinicRepository: locator()));
+  locator.registerLazySingleton(
+      () => GetClinicsStreamInfoUseCase(clinicRepository: locator()));
+  locator.registerLazySingleton(
+      () => ClinicAuthStateUseCase(repository: locator()));
+
   locator.registerLazySingleton(
       () => CheckWatchingStatusUseCase(repository: locator()));
   locator
@@ -61,19 +73,20 @@ Future<void> setupLocator() async {
   // );
   locator.registerLazySingleton<DoctorRepository>(
       () => DcotrRepositoryImpl(doctorRemoteDataSource: locator()));
+
+  // clinics part
+  locator.registerLazySingleton<ClinicRepository>(
+      () => ClinicRepositoryImpl(clinicsRemoteDataSource: locator()));
   locator.registerLazySingleton<IntroductionRepository>(
       () => IntroductionRepositoryImpl(dataSource: locator()));
 
-  // data source
-  // locator.registerLazySingleton<WeatherRemoteDataSource>(
-  //   () => WeatherRemoteDataSourceImpl(
-  //     client: locator(),
-  //   ),
-  // );
   locator.registerLazySingleton<DoctorRemoteDataSource>(
       () => DoctorRemoteDataSourceImpl(locator(), locator(), locator()));
   locator.registerLazySingleton<LocalDataSource>(
       () => LocalDataSourceImpl(prefs: locator()));
+
+  locator.registerLazySingleton<ClinicsRemoteDataSource>(
+      () => ClinicsRemoteDataSourceImpl(locator(), locator(), locator()));
 
   // external
   locator.registerLazySingleton(() => http.Client());

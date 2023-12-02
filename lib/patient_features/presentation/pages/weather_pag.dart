@@ -2,8 +2,7 @@
 
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
-import 'package:dawini_full/patient_features/presentation/pages/doctor_details.dart';
-import 'package:dawini_full/patient_features/presentation/pages/pages/side_menu.dart';
+import 'package:dawini_full/patient_features/presentation/pages/pages/doctorDetails/doctor_details.dart';
 import 'package:dawini_full/patient_features/presentation/pages/widgets/serachMenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +20,6 @@ class _DoctorPageState extends State<DoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavDrawer(),
       drawerEnableOpenDragGesture: false,
       appBar: AppBar(
         title: Text("DAWINI"),

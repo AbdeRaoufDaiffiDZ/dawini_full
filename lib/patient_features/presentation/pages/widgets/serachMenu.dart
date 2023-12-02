@@ -2,6 +2,8 @@ import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+String dropdownValue = "all";
+
 class SearchMenu extends StatefulWidget {
   const SearchMenu({
     super.key,
@@ -17,7 +19,6 @@ class _SearchMenuState extends State<SearchMenu> {
     final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
     const List<String> list = <String>['all', 'bouira', 'Algiers', 'Tlemcen'];
 
-    String dropdownValue = list.first;
     return SafeArea(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -63,9 +64,11 @@ class _SearchMenuState extends State<SearchMenu> {
               height: 2,
               color: Colors.deepPurpleAccent,
             ),
-            onChanged: (String? wilaya) {
+            onChanged: (wilaya) {
               // This is called when the user selects an item.
-
+              setState(() {
+                dropdownValue = wilaya!;
+              });
               dataBloc.add(onDoctorsearchByWilaya(
                   wilaya: wilaya.toString().toLowerCase()));
             },

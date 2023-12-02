@@ -5,13 +5,22 @@ class DoctorModel extends DoctorEntity {
   final String lastName;
   final String phoneNumber;
   final String wilaya;
+  final String city;
+  final String speciality;
+  final bool atSerivce;
 
   DoctorModel(
-      {required this.wilaya,
+      {required this.city,
+      required this.speciality,
+      required this.atSerivce,
+      required this.wilaya,
       required this.firstName,
       required this.lastName,
       required this.phoneNumber})
       : super(
+            city: city,
+            speciality: speciality,
+            atSerivce: atSerivce,
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,
@@ -26,6 +35,9 @@ class DoctorModel extends DoctorEntity {
       'firstName': firstName,
       'lastName': lastName,
       'phoneNumber': phoneNumber,
+      'atSerivce': atSerivce,
+      'speciality': speciality,
+      'city': city
     };
   }
 
@@ -35,6 +47,11 @@ class DoctorModel extends DoctorEntity {
       lastName: json['lastName'],
       phoneNumber: json['phoneNumber'],
       wilaya: json['Wilaya'],
+      city: json[
+          'Wilaya'], //////////////////////////////////   city must be add to databse
+      speciality: json['speciality'],
+      atSerivce: json[
+          'atSerivce'], ///////////////////////////////////////   atService must be add to database
     );
   }
 
@@ -42,5 +59,8 @@ class DoctorModel extends DoctorEntity {
       firstName: firstName,
       lastName: lastName,
       phoneNumber: phoneNumber,
-      wilaya: wilaya);
+      wilaya: wilaya,
+      city: city,
+      speciality: speciality,
+      atSerivce: atSerivce);
 }

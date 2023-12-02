@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
-import 'package:dawini_full/core/error/failure.dart';
 import 'package:dawini_full/patient_features/domain/usecases/doctor_auth_satet_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
