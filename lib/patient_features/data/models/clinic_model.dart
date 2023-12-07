@@ -40,9 +40,9 @@ class ClinicModel extends ClinicEntity {
       phoneNumber: json['phoneNumber'],
       wilaya: json['Wilaya'],
       city: json[
-          'Wilaya'], //////////////////////////////////   city must be add to databse
+          'city'], //////////////////////////////////   city must be add to databse
       atSerivce: json[
-          'atSerivce'], ///////////////////////////////////////   atService must be add to database
+          'atService'], ///////////////////////////////////////   atService must be add to database
     );
   }
 

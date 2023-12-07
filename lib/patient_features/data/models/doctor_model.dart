@@ -8,9 +8,11 @@ class DoctorModel extends DoctorEntity {
   final String city;
   final String speciality;
   final bool atSerivce;
+  final int turn;
 
   DoctorModel(
       {required this.city,
+      required this.turn,
       required this.speciality,
       required this.atSerivce,
       required this.wilaya,
@@ -18,6 +20,7 @@ class DoctorModel extends DoctorEntity {
       required this.lastName,
       required this.phoneNumber})
       : super(
+            turn: turn,
             city: city,
             speciality: speciality,
             atSerivce: atSerivce,
@@ -28,7 +31,16 @@ class DoctorModel extends DoctorEntity {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [lastName, firstName, phoneNumber];
+  List<Object?> get props => [
+        lastName,
+        firstName,
+        phoneNumber,
+        turn,
+        speciality,
+        atSerivce,
+        wilaya,
+        city
+      ];
 
   Map<String, dynamic> toMap() {
     return {
@@ -37,22 +49,23 @@ class DoctorModel extends DoctorEntity {
       'phoneNumber': phoneNumber,
       'atSerivce': atSerivce,
       'speciality': speciality,
-      'city': city
+      'city': city,
+      'turn': turn
     };
   }
 
   factory DoctorModel.fromJson(Map<dynamic, dynamic> json) {
     return DoctorModel(
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      phoneNumber: json['phoneNumber'],
-      wilaya: json['Wilaya'],
-      city: json[
-          'Wilaya'], //////////////////////////////////   city must be add to databse
-      speciality: json['speciality'],
-      atSerivce: json[
-          'atSerivce'], ///////////////////////////////////////   atService must be add to database
-    );
+        firstName: json['firstName'],
+        lastName: json['lastName'],
+        phoneNumber: json['phoneNumber'],
+        wilaya: json['Wilaya'],
+        city: json[
+            'Wilaya'], //////////////////////////////////   city must be add to databse
+        speciality: json['speciality'],
+        atSerivce: json[
+            'atSerivce'], ///////////////////////////////////////   atService must be add to database
+        turn: json['turn']);
   }
 
   DoctorEntity toEntity() => DoctorEntity(
@@ -62,5 +75,6 @@ class DoctorModel extends DoctorEntity {
       wilaya: wilaya,
       city: city,
       speciality: speciality,
-      atSerivce: atSerivce);
+      atSerivce: atSerivce,
+      turn: turn);
 }

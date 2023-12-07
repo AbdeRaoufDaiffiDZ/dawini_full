@@ -8,9 +8,11 @@ class DoctorEntity extends Equatable {
   final String city;
   final String speciality;
   final bool atSerivce;
+  final int turn;
 
   DoctorEntity(
       {required this.city,
+      required this.turn,
       required this.speciality,
       required this.atSerivce,
       required this.wilaya,
@@ -20,6 +22,14 @@ class DoctorEntity extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props =>
-      [lastName, firstName, phoneNumber, speciality, city, atSerivce, wilaya];
+  List<Object?> get props => [
+        lastName,
+        firstName,
+        phoneNumber,
+        speciality,
+        city,
+        atSerivce,
+        wilaya,
+        turn
+      ];
 }

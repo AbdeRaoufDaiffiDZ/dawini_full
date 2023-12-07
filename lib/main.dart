@@ -1,3 +1,4 @@
+import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
 import 'package:dawini_full/splashes/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (_) => locator<ClinicsBloc>(),
+          ),
           BlocProvider(create: (_) => locator<DoctorAuthBloc>()),
           BlocProvider(
             create: (_) => locator<DoctorBloc>(),

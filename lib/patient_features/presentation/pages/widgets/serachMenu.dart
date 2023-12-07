@@ -1,3 +1,4 @@
+import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,8 @@ class _SearchMenuState extends State<SearchMenu> {
   Widget build(BuildContext context) {
     final TextEditingController _textController = TextEditingController();
     final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
+    final ClinicsBloc clinicBloc = BlocProvider.of<ClinicsBloc>(context);
+
     const List<String> list = <String>['all', 'bouira', 'Algiers', 'Tlemcen'];
 
     return SafeArea(
@@ -44,6 +47,7 @@ class _SearchMenuState extends State<SearchMenu> {
                     // },
                     onChanged: (text) {
                       dataBloc.add(onDoctorsearchByName(doctorName: text));
+                      // clinicBloc.add(onClinicsearchByName(clinicName: text));
 
                       ///
                     },
@@ -71,6 +75,8 @@ class _SearchMenuState extends State<SearchMenu> {
               });
               dataBloc.add(onDoctorsearchByWilaya(
                   wilaya: wilaya.toString().toLowerCase()));
+              clinicBloc.add(onClinicsearchByWilaya(
+                  wilaya: wilaya.toString().toLowerCase()));
             },
             items: list.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
@@ -79,6 +85,16 @@ class _SearchMenuState extends State<SearchMenu> {
               );
             }).toList(),
           ),
+          MaterialButton(
+              color: Colors.blueAccent,
+              onPressed: () {
+                dataBloc.add(onDoctorsearchByspeciality(speciality: "dentist"));
+              }),
+          MaterialButton(
+              color: Colors.blueGrey,
+              onPressed: () {
+                dataBloc.add(onDoctorsearchByspeciality(speciality: "all"));
+              })
         ],
       ),
     );

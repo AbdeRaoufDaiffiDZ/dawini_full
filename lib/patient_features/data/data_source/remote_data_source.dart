@@ -53,6 +53,7 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
 
       return data;
     });
+
     return result;
   }
 
@@ -82,7 +83,7 @@ class ClinicsRemoteDataSourceImpl implements ClinicsRemoteDataSource {
   );
   @override
   Future<List<ClinicModel>> getClincsInfo() async {
-    final response = await client.get(Uri.parse(Urls.doctorInfoUrl()));
+    final response = await client.get(Uri.parse(Urls.clinicInfoUrl()));
     if (response.statusCode == 200) {
       List<ClinicModel> users =
           (json.decode(response.body) as List).map((data) {
@@ -97,7 +98,7 @@ class ClinicsRemoteDataSourceImpl implements ClinicsRemoteDataSource {
   Stream<List<ClinicModel>> streamClincss() {
     List<ClinicModel> resulted = [];
     final result =
-        _databaseReference.ref().child('doctorsList').onValue.map((event) {
+        _databaseReference.ref().child('clinics').onValue.map((event) {
       resulted.clear();
 
       List currapted = event.snapshot.value as List;

@@ -16,6 +16,7 @@ class _doctorDetailsState extends State<doctorDetails> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(),
         body: Center(
           child: Column(
             children: [

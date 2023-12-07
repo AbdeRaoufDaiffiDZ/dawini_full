@@ -7,4 +7,7 @@ class Urls {
       'http://openweathermap.org/img/wn/$iconCode@2x.png';
   static String doctorInfoUrl() =>
       'https://dawini-cec17-default-rtdb.europe-west1.firebasedatabase.app/doctorsList/.json';
+
+  static String clinicInfoUrl() =>
+      'https://dawini-cec17-default-rtdb.europe-west1.firebasedatabase.app/clinics/.json';
 }

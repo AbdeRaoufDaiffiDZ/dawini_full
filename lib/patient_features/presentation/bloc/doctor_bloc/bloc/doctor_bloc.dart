@@ -7,7 +7,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/scheduler.dart';
 
 part 'doctor_event.dart';
 part 'doctor_state.dart';
@@ -20,7 +19,10 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     this.streamDoctors,
     this.getDoctorsInfoUseCase,
   ) : super(DoctorLoading()) {
+    late List<DoctorEntity> info;
+
     streamSubscription = streamDoctors.excute().listen((event) {
+      info = event;
       add(doctorsInfoUpdated(doctors: event));
     });
     on<DoctorEvent>((event, emit) async {
@@ -31,8 +33,8 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         emit(ChossenDoctor(doctor: event.doctor));
       } else if (event is onDoctorsearchByName) {
         List<DoctorEntity> doctors;
-        List<DoctorEntity> info;
-        info = await getDoctorsInfoUseCase.excute();
+        // List<DoctorEntity> info;
+        // info = await getDoctorsInfoUseCase.excute();
 
         if (event.doctorName.isEmpty) {
           doctors = info;
@@ -54,8 +56,8 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         emit(DoctorLoaded(doctor: doctors, event: event.doctorName));
       } else if (event is onDoctorsearchByWilaya) {
         List<DoctorEntity> doctors;
-        List<DoctorEntity> info;
-        info = await getDoctorsInfoUseCase.excute();
+        // List<DoctorEntity> info;
+        // info = await getDoctorsInfoUseCase.excute();
 
         if (event.wilaya.isEmpty || event.wilaya == 'all') {
           doctors = info;
@@ -72,6 +74,22 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         streamDoctors.excute().listen((event) {
           add(doctorsInfoUpdated(doctors: event));
         });
+      } else if (event is onDoctorsearchByspeciality) {
+        List<DoctorEntity> doctors;
+        // List<DoctorEntity> info;
+        // info = await getDoctorsInfoUseCase.excute();
+
+        if (event.speciality.isEmpty || event.speciality == 'all') {
+          doctors = info;
+        } else {
+          doctors = info
+              .where((element) => element.speciality
+                  .toLowerCase()
+                  .contains(event.speciality.toLowerCase()))
+              .toList();
+        }
+
+        emit(DoctorLoaded(doctor: doctors, event: event));
       }
     });
   }

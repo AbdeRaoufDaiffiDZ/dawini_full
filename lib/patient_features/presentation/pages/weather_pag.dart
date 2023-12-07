@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dawini_full/patient_features/domain/entities/clinic.dart';
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
+import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/pages/pages/doctorDetails/doctor_details.dart';
 import 'package:dawini_full/patient_features/presentation/pages/widgets/serachMenu.dart';
@@ -50,6 +52,27 @@ class _DoctorPageState extends State<DoctorPage> {
             child: Column(
               children: [
                 SearchMenu(), //////////  Search menu by name and by wilaya
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: BlocBuilder<ClinicsBloc, ClinicsState>(
+                        builder: (context, state) {
+                      if (state is ClinicLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is ClinicLoaded) {
+                        final clinics = state.clinic;
+
+                        return ClinicsLoadedScrees(
+                            clinics, widget.device_size); /////////////
+                      } else if (state is ClinicLoadingFailure) {
+                        return ErrorWidget(state.message);
+                      } else {
+                        context.read<ClinicsBloc>().add(ClinicinitialEvent());
+                        return Container();
+                      }
+                    }),
+                  ),
+                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -69,7 +92,7 @@ class _DoctorPageState extends State<DoctorPage> {
                       }
                     }),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -94,12 +117,14 @@ Widget DoctorsLoadedScrees(List<DoctorEntity> doctors) {
                 // Customize the DoctorEntity widget as needed
                 return ListTile(
                   onTap: () {
-                    context
-                        .read<DoctorBloc>()
-                        .add(onDoctorChoose(doctor: doctor));
+                    context.read<DoctorBloc>().add(onDoctorChoose(
+                          doctor: doctor,
+                        ));
                   },
                   title: Text(doctor.firstName),
                   subtitle: Text(doctor.wilaya),
+                  leading: Text(doctor.turn.toString()),
+
                   // Add more fields as needed
                 );
               },
@@ -107,6 +132,39 @@ Widget DoctorsLoadedScrees(List<DoctorEntity> doctors) {
           ),
         ),
       ],
+    ),
+  );
+}
+
+Widget ClinicsLoadedScrees(List<ClinicEntity> clinics, Size size) {
+  return Container(
+    color: Colors.amber,
+    width: size.width,
+    height: 100,
+    child: Material(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: clinics.length,
+        itemBuilder: (context, index) {
+          final clinic = clinics[index];
+
+          // Customize the DoctorEntity widget as needed
+          return Container(
+            color: Colors.green,
+            width: 150,
+            child: ListTile(
+              onTap: () {
+                context
+                    .read<ClinicsBloc>()
+                    .add(onClinicChoose(clinics: clinic));
+              },
+              title: Text(clinic.ClinicName),
+              subtitle: Text(clinic.wilaya),
+              // Add more fields as needed
+            ),
+          );
+        },
+      ),
     ),
   );
 }

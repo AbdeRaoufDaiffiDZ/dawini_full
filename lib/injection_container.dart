@@ -19,6 +19,7 @@ import 'package:dawini_full/patient_features/domain/usecases/doctor_auth_satet_u
 import 'package:dawini_full/patient_features/domain/usecases/get_clinics_info.dart';
 import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/doctor_auth_bloc.dart';
+import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -37,6 +38,7 @@ Future<void> setupLocator() async {
   locator.registerFactory(() => DoctorAuthBloc(locator()));
   locator.registerFactory(() => IntroductionBloc(locator(), locator(),
       locator(), locator(), locator(), locator(), locator()));
+  locator.registerFactory(() => ClinicsBloc(locator(), locator()));
 
   // usecase
   // locator.registerLazySingleton(
