@@ -61,7 +61,7 @@ class DoctorModel extends DoctorEntity {
         phoneNumber: json['phoneNumber'],
         wilaya: json['Wilaya'],
         city: json[
-            'Wilaya'], //////////////////////////////////   city must be add to databse
+            'city'], //////////////////////////////////   city must be add to databse
         speciality: json['speciality'],
         atSerivce: json[
             'atSerivce'], ///////////////////////////////////////   atService must be add to database

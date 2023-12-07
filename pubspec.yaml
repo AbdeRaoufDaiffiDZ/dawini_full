@@ -49,7 +49,15 @@ dependencies:
   rxdart:
   dartz:
   firebase_database:
+   
+  dropdown_button2: 
+  eva_icons_flutter: 
+  curved_navigation_bar: 
+  motion_tab_bar_v2: 
+  google_nav_bar: 
+  flutter_screenutil: 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
 

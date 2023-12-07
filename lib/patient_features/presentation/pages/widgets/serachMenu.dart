@@ -1,7 +1,8 @@
-import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 String dropdownValue = "all";
 
@@ -14,87 +15,153 @@ class SearchMenu extends StatefulWidget {
 }
 
 class _SearchMenuState extends State<SearchMenu> {
+  String? selectedValue;
+
+  final items = [
+    "Province",
+    "Alger",
+    "Boumerdes",
+    "Oran",
+    "chlef",
+    "Bejaia",
+    "Annaba",
+    "Bouira"
+  ];
   @override
   Widget build(BuildContext context) {
     final TextEditingController _textController = TextEditingController();
     final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
-    final ClinicsBloc clinicBloc = BlocProvider.of<ClinicsBloc>(context);
+    // final ClinicsBloc clinicBloc = BlocProvider.of<ClinicsBloc>(context);
 
-    const List<String> list = <String>['all', 'bouira', 'Algiers', 'Tlemcen'];
-
-    return SafeArea(
+    return Padding(
+      padding: EdgeInsets.only(top: 8.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(
-            height: 50,
-            width: 100,
-            child: Material(
-              color: Colors.green,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Center(
-                  child: TextField(
-                    style: TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
-                    controller: _textController,
-                    // onChanged: (text) {
-                    //   dataBloc.add(onDoctorsearchByName(
-                    //       doctorName:
-                    //           text)); ///////////////////////////////////: find doctor
-                    // },
-                    onChanged: (text) {
-                      dataBloc.add(onDoctorsearchByName(doctorName: text));
-                      // clinicBloc.add(onClinicsearchByName(clinicName: text));
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: 15.w, left: 10.h),
+              child: Container(
+                height: 45.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey.shade300,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        size: 26.w,
+                        color: const Color(0xFF2CDBC6),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _textController,
+                          onChanged: (text) {
+                            dataBloc
+                                .add(onDoctorsearchByName(doctorName: text));
+                            // clinicBloc.add(onClinicsearchByName(clinicName: text));
 
-                      ///
-                    },
-                    decoration: InputDecoration(
-                        hintText: "doctor",
-                        hintStyle: TextStyle(color: Colors.white)),
+                            ///
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Search for a doctor or clinic',
+                            hintStyle: TextStyle(fontSize: 13.sp),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
-          DropdownButton<String>(
-            value: dropdownValue,
-            icon: const Icon(Icons.arrow_downward),
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+          Padding(
+            padding: EdgeInsets.only(right: 10.w),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton2<String>(
+                isExpanded: true,
+                hint: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Province',
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                items: items
+                    .map((String item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ))
+                    .toList(),
+                value: selectedValue,
+                onChanged: (wilaya) {
+                  setState(() {
+                    selectedValue = wilaya;
+                  });
+                  dataBloc.add(onDoctorsearchByWilaya(
+                      wilaya: wilaya.toString().toLowerCase()));
+                },
+                buttonStyleData: ButtonStyleData(
+                  height: 45.h,
+                  width: 120.w,
+                  padding: EdgeInsets.only(left: 14.w, right: 14.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: const Color(0xFF2CDBC6),
+                    ),
+                    color: const Color(0xFF2CDBC6),
+                  ),
+                  elevation: 1,
+                ),
+                iconStyleData: IconStyleData(
+                  icon: const Icon(
+                    Icons.arrow_downward_outlined,
+                  ),
+                  iconSize: 14.w,
+                  iconEnabledColor: Colors.white,
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  maxHeight: 200.h,
+                  width: 120.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: Colors.teal.shade100,
+                  ),
+                  offset: Offset(-10.w, 0.h),
+                  scrollbarTheme: ScrollbarThemeData(
+                    radius: const Radius.circular(20),
+                    thickness: MaterialStateProperty.all(8),
+                    thumbVisibility: MaterialStateProperty.all(true),
+                    interactive: true,
+                  ),
+                ),
+                menuItemStyleData: const MenuItemStyleData(
+                  height: 40,
+                  padding: EdgeInsets.only(left: 12, right: 14),
+                ),
+              ),
             ),
-            onChanged: (wilaya) {
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = wilaya!;
-              });
-              dataBloc.add(onDoctorsearchByWilaya(
-                  wilaya: wilaya.toString().toLowerCase()));
-              clinicBloc.add(onClinicsearchByWilaya(
-                  wilaya: wilaya.toString().toLowerCase()));
-            },
-            items: list.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
           ),
-          MaterialButton(
-              color: Colors.blueAccent,
-              onPressed: () {
-                dataBloc.add(onDoctorsearchByspeciality(speciality: "dentist"));
-              }),
-          MaterialButton(
-              color: Colors.blueGrey,
-              onPressed: () {
-                dataBloc.add(onDoctorsearchByspeciality(speciality: "all"));
-              })
         ],
       ),
     );

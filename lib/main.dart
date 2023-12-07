@@ -1,9 +1,10 @@
 import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
-import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
+import 'package:dawini_full/patient_features/presentation/pages/myApp.dart';
 import 'package:dawini_full/splashes/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:dawini_full/firebase_options.dart';
@@ -41,20 +42,26 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => locator<ClinicsBloc>(),
+            create: (_) => locator<ClinicsBloc>()..add(ClinicinitialEvent()),
           ),
           BlocProvider(create: (_) => locator<DoctorAuthBloc>()),
           BlocProvider(
-            create: (_) => locator<DoctorBloc>(),
+            create: (_) => locator<DoctorBloc>()..add(DoctorinitialEvent()),
           ),
           BlocProvider(
             create: (_) => locator<IntroductionBloc>(),
           )
         ],
-        child: const MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Splash(),
-        ));
+        child: ScreenUtilInit(
+            designSize: const Size(360, 690),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (context, child) {
+              return const MaterialApp(
+                debugShowCheckedModeBanner: false,
+                home: Splash(),
+              );
+            }));
   }
 }
 
@@ -78,9 +85,7 @@ class _MyWidgetState extends State<MyWidget> {
     Size device_size = MediaQuery.of(context).size;
 
     if (status) {
-      return DoctorPage(
-        device_size: device_size,
-      );
+      return Mypage();
     } else {
       return PagesShower(
         size: device_size,

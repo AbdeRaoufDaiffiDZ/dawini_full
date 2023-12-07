@@ -55,3 +55,5 @@ class onDoctorsearchByWilaya extends DoctorEvent {
 }
 
 class DoctorinitialEvent extends DoctorEvent {}
+
+final class onSeeAllDoctors extends DoctorEvent {}

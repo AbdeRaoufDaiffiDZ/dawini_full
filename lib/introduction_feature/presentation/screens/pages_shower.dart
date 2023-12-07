@@ -1,7 +1,7 @@
 import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduction_bloc.dart';
 import 'package:dawini_full/introduction_feature/presentation/screens/pages/languageScreen.dart';
 import 'package:dawini_full/introduction_feature/presentation/screens/pages/typeScreen.dart';
-import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
+import 'package:dawini_full/patient_features/presentation/pages/myApp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,9 +36,7 @@ class _PagesShowerState extends State<PagesShower> {
           );
         } else if (state is IgnoreIntorductionState) {
           if (state.Screen == 'doctor') {
-            return DoctorPage(
-              device_size: widget.size,
-            );
+            return Mypage();
           } else {
             /////////////////////////////////////    here you will go to patients screen
             bloc.add(NextPage(id: 1));

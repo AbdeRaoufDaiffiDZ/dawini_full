@@ -32,8 +32,6 @@ final locator = GetIt.instance;
 Future<void> setupLocator() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  // bloc
-  // locator.registerFactory(() => WeatherBloc(locator()));
   locator.registerFactory(() => DoctorBloc(locator(), locator()));
   locator.registerFactory(() => DoctorAuthBloc(locator()));
   locator.registerFactory(() => IntroductionBloc(locator(), locator(),

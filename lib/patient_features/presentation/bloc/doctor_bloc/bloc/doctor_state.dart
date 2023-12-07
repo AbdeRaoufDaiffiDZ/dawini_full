@@ -13,9 +13,8 @@ final class DoctorLoading extends DoctorState {}
 
 final class DoctorLoaded extends DoctorState {
   final List<DoctorEntity> doctor;
-  final event;
 
-  DoctorLoaded({required this.event, required this.doctor});
+  DoctorLoaded({required this.doctor});
 
   @override
   List<Object> get props => [doctor];
@@ -37,4 +36,13 @@ final class DoctorLoadingFailure extends DoctorState {
 
   @override
   List<Object> get props => [message];
+}
+
+final class SeeAllDoctors extends DoctorState {
+  final List<DoctorEntity> doctor;
+
+  SeeAllDoctors({required this.doctor});
+
+  @override
+  List<Object> get props => [doctor];
 }
