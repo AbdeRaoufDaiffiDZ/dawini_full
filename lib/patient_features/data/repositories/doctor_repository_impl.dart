@@ -9,9 +9,9 @@ import 'package:dawini_full/patient_features/domain/repositories/doctor_reposito
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DcotrRepositoryImpl implements DoctorRepository {
-  final DoctorRemoteDataSource doctorRemoteDataSource;
+  static final DoctorRemoteDataSource doctorRemoteDataSource =
+      DoctorRemoteDataSourceImpl();
 
-  DcotrRepositoryImpl({required this.doctorRemoteDataSource});
   @override
   Future<Either<Failure, List<DoctorEntity>>> getDoctorsInfo() async {
     try {

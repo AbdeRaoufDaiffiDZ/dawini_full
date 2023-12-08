@@ -10,70 +10,23 @@ part 'clinics_state.dart';
 
 class ClinicsBloc extends Bloc<ClinicsEvent, ClinicsState> {
   final GetClinicsInfoUseCase getClinicsInfoUseCase;
-  final GetClinicsStreamInfoUseCase streamClinics;
-  late final StreamSubscription<List<ClinicEntity>> streamClinicSubscription;
-  ClinicsBloc(
-    this.streamClinics,
-    this.getClinicsInfoUseCase,
-  ) : super(ClinicLoading()) {
-    late List<ClinicEntity> info;
 
-    on<ClinicinitialEvent>((event, emit) async {
-      final data = getClinicsInfoUseCase.excute();
+  ClinicsBloc({required this.getClinicsInfoUseCase}) : super(ClinicLoading()) {
+    on<ClinicsEvent>((event, emit) async {
+      emit(ClinicLoading());
+      if (event is ClinicInfoUpdated) {
+        emit(ClinicLoaded());
+      } else if (event is onClinicChoose) {
+        emit(ChossenClinic());
+      } else if (event is onClinicsearchByName) {
+        emit(ClinicsSearchName(name: event.clinicName));
+      } else if (event is onClinicsearchByWilaya) {
+        emit(FilterByWilayaClinic(wilaya: event.wilaya));
+      } else if (event is ClinicinitialEvent) {
+        final data = getClinicsInfoUseCase.excute();
 
-      add(ClinicInfoUpdated(clinics: await data));
+        add(ClinicInfoUpdated(clinics: await data));
+      }
     });
-
-    streamClinicSubscription = streamClinics.excute().listen((event) {
-      // add(ClinicInfoUpdated(clinics: event));
-      info = event;
-
-      on<ClinicsEvent>((event, emit) async {
-        emit(ClinicLoading());
-        if (event is ClinicInfoUpdated) {
-          emit(ClinicLoaded(clinic: event.clinics, event: event));
-        } else if (event is onClinicChoose) {
-          emit(ChossenClinic(clinic: event.clinics));
-        } else if (event is onClinicsearchByName) {
-          List<ClinicEntity> clinic;
-          // List<ClinicEntity> info;
-          //  info = await getClinicsInfoUseCase.excute();
-
-          if (event.clinicName.isEmpty) {
-            clinic = info;
-          } else {
-            clinic = info
-                .where((element) => element.ClinicName.toLowerCase()
-                    .contains(event.clinicName.toLowerCase()))
-                .toList();
-          }
-
-          emit(ClinicLoaded(clinic: clinic, event: event.clinicName));
-        } else if (event is onClinicsearchByWilaya) {
-          List<ClinicEntity> clinic;
-          // List<ClinicEntity> info;
-          // info = await getClinicsInfoUseCase.excute();
-
-          if (event.wilaya.isEmpty || event.wilaya == 'all') {
-            clinic = info;
-          } else {
-            clinic = info
-                .where((element) => element.wilaya
-                    .toLowerCase()
-                    .contains(event.wilaya.toLowerCase()))
-                .toList();
-          }
-
-          emit(ClinicLoaded(clinic: clinic, event: event));
-        } else if (event is ClinicinitialEvent) {
-          add(ClinicInfoUpdated(clinics: info));
-        }
-      });
-    });
-  }
-  @override
-  Future<void> close() {
-    streamClinicSubscription.cancel();
-    return super.close();
   }
 }

@@ -17,15 +17,10 @@ abstract class DoctorRemoteDataSource {
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
-  final http.Client client;
-  final FirebaseDatabase _databaseReference;
-  final FirebaseAuth auth;
+  static final http.Client client = http.Client();
+  static final FirebaseDatabase _databaseReference = FirebaseDatabase.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  DoctorRemoteDataSourceImpl(
-    this.client,
-    this._databaseReference,
-    this.auth,
-  );
   @override
   Future<List<DoctorModel>> getDoctorsInfo() async {
     final response = await client.get(Uri.parse(Urls.doctorInfoUrl()));
@@ -72,15 +67,10 @@ abstract class ClinicsRemoteDataSource {
 }
 
 class ClinicsRemoteDataSourceImpl implements ClinicsRemoteDataSource {
-  final http.Client client;
-  final FirebaseDatabase _databaseReference;
-  final FirebaseAuth auth;
+  static final http.Client client = http.Client();
+  static final FirebaseDatabase _databaseReference = FirebaseDatabase.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  ClinicsRemoteDataSourceImpl(
-    this.client,
-    this._databaseReference,
-    this.auth,
-  );
   @override
   Future<List<ClinicModel>> getClincsInfo() async {
     final response = await client.get(Uri.parse(Urls.clinicInfoUrl()));

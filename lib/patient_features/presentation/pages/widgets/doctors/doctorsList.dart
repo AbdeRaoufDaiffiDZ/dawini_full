@@ -1,9 +1,11 @@
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
+import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/Condtions/doctor_state_conditions.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/pages/pages/doctorDetails/doctor_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
 
 class DoctorsList extends StatefulWidget {
   const DoctorsList({super.key});
@@ -15,28 +17,24 @@ class DoctorsList extends StatefulWidget {
 class _DoctorsListState extends State<DoctorsList> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DoctorBloc, DoctorState>(builder: (context, state) {
-      if (state is DoctorLoading) {
-        return Center(child: CircularProgressIndicator());
-      } else if (state is SeeAllDoctors) {
-        final doctors = state.doctor;
-
-        return Doctors(
-          doctors: doctors,
-        );
-      } else if (state is DoctorLoaded) {
-        final doctors = state.doctor;
-
-        return Doctors(
-          doctors: doctors,
-        );
-      } else if (state is DoctorLoadingFailure) {
-        return ErrorWidget(state.message);
-      } else {
-        // context.read<DoctorBloc>().add(DoctorinitialEvent());
-        return Container();
-      }
-    });
+    return StreamBuilder<List<DoctorEntity>>(
+        stream: GetDoctorsStreamInfoUseCase.excute(),
+        builder: (context, snapshot) {
+          late final List<DoctorEntity> data;
+          if (snapshot.data == null) {
+            data = [];
+          } else {
+            if (snapshot.data!.isEmpty) {
+              data = [];
+            } else {
+              data = snapshot.data!;
+            }
+          }
+          return BlocBuilder<DoctorBloc, DoctorState>(
+              builder: (context, state) {
+            return DoctorStateConditions(state, data);
+          });
+        });
   }
 }
 
@@ -52,6 +50,7 @@ class Doctors extends StatefulWidget {
 class _DoctorsState extends State<Doctors> {
   @override
   Widget build(BuildContext context) {
+    List<DoctorEntity> data = widget.doctors;
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -65,16 +64,15 @@ class _DoctorsState extends State<Doctors> {
               crossAxisSpacing: 1.w, // Spacing between columns
               mainAxisSpacing: 1.h, // Spacing between rows
               mainAxisExtent: 320),
-          itemCount: widget.doctors.length, // Number of items in the grid
+          itemCount: data.length, // Number of items in the grid
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                // dataBloc.add(onDoctorChoose(doctor: widget.doctors[index]));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          doctorDetails(doctor: widget.doctors[index])),
+                          doctorDetails(uid: widget.doctors[index].uid)),
                 );
               },
               child: Container(
@@ -100,7 +98,7 @@ class _DoctorsState extends State<Doctors> {
                       Padding(
                         padding: EdgeInsets.only(left: 8.w),
                         child: Text(
-                          "Dr. " + widget.doctors[index].lastName,
+                          data.isNotEmpty ? "Dr. " + data[index].lastName : "",
                           style: TextStyle(
                               fontSize: 14.sp, fontWeight: FontWeight.w800),
                         ),
@@ -111,7 +109,7 @@ class _DoctorsState extends State<Doctors> {
                       Padding(
                         padding: EdgeInsets.only(left: 8.w),
                         child: Text(
-                          widget.doctors[index].speciality,
+                          data.isNotEmpty ? data[index].speciality : "",
                           style: TextStyle(
                               fontSize: 14.sp, fontWeight: FontWeight.w400),
                         ),
@@ -132,9 +130,11 @@ class _DoctorsState extends State<Doctors> {
                             Container(
                               width: 120.w,
                               child: Text(
-                                widget.doctors[index].city +
-                                    ", " +
-                                    widget.doctors[index].wilaya,
+                                data.isNotEmpty
+                                    ? data[index].city +
+                                        ", " +
+                                        data[index].wilaya
+                                    : "",
                                 style: TextStyle(
                                     color: Colors.black45,
                                     fontSize: 14.sp,
@@ -151,14 +151,18 @@ class _DoctorsState extends State<Doctors> {
                           children: [
                             Icon(Icons.circle,
                                 size: 16.w,
-                                color: widget.doctors[index].atSerivce
-                                    ? Colors.teal
-                                    : const Color.fromARGB(255, 150, 0, 0)),
+                                color: data.isNotEmpty
+                                    ? data[index].atSerivce
+                                        ? Colors.teal
+                                        : const Color.fromARGB(255, 150, 0, 0)
+                                    : Color.fromARGB(0, 150, 0, 0)),
                             SizedBox(width: 5.h),
                             Text(
-                              widget.doctors[index].atSerivce
-                                  ? "At service "
-                                  : " Not at service ",
+                              data.isNotEmpty
+                                  ? data[index].atSerivce
+                                      ? "At service "
+                                      : " Not at service "
+                                  : "",
                               style: TextStyle(
                                   fontSize: 12.sp, fontWeight: FontWeight.w500),
                             ),

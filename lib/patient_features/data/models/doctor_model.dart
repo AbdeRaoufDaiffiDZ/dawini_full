@@ -9,9 +9,11 @@ class DoctorModel extends DoctorEntity {
   final String speciality;
   final bool atSerivce;
   final int turn;
+  final String uid;
 
   DoctorModel(
-      {required this.city,
+      {required this.uid,
+      required this.city,
       required this.turn,
       required this.speciality,
       required this.atSerivce,
@@ -20,6 +22,7 @@ class DoctorModel extends DoctorEntity {
       required this.lastName,
       required this.phoneNumber})
       : super(
+            uid: uid,
             turn: turn,
             city: city,
             speciality: speciality,
@@ -39,7 +42,8 @@ class DoctorModel extends DoctorEntity {
         speciality,
         atSerivce,
         wilaya,
-        city
+        city,
+        uid
       ];
 
   Map<String, dynamic> toMap() {
@@ -50,7 +54,8 @@ class DoctorModel extends DoctorEntity {
       'atSerivce': atSerivce,
       'speciality': speciality,
       'city': city,
-      'turn': turn
+      'turn': turn,
+      'uid': uid
     };
   }
 
@@ -65,10 +70,12 @@ class DoctorModel extends DoctorEntity {
         speciality: json['speciality'],
         atSerivce: json[
             'atSerivce'], ///////////////////////////////////////   atService must be add to database
-        turn: json['turn']);
+        turn: json['turn'],
+        uid: json['uid']);
   }
 
   DoctorEntity toEntity() => DoctorEntity(
+      uid: uid,
       firstName: firstName,
       lastName: lastName,
       phoneNumber: phoneNumber,

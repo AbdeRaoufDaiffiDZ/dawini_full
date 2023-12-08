@@ -11,24 +11,37 @@ final class ClinicsInitial extends ClinicsState {}
 
 final class ClinicLoading extends ClinicsState {}
 
-final class ClinicLoaded extends ClinicsState {
-  final List<ClinicEntity> clinic;
-  final event;
+final class SeeAllClinics extends ClinicsState {}
 
-  ClinicLoaded({required this.event, required this.clinic});
+final class FilterByWilayaClinic extends ClinicsState {
+  final String wilaya;
 
+  const FilterByWilayaClinic({required this.wilaya});
   @override
-  List<Object> get props => [clinic];
+  List<Object> get props => [wilaya];
 }
 
-final class ChossenClinic extends ClinicsState {
-  final ClinicEntity clinic;
+final class ClinicsFilterSpeciality extends ClinicsState {
+  final String speciality;
 
-  ChossenClinic({required this.clinic});
+  const ClinicsFilterSpeciality({required this.speciality});
 
   @override
-  List<Object> get props => [clinic];
+  List<Object> get props => [speciality];
 }
+
+final class ClinicLoaded extends ClinicsState {}
+
+final class ClinicsSearchName extends ClinicsState {
+  final String name;
+
+  const ClinicsSearchName({required this.name});
+
+  @override
+  List<Object> get props => [name];
+}
+
+final class ChossenClinic extends ClinicsState {}
 
 final class ClinicLoadingFailure extends ClinicsState {
   final String message;

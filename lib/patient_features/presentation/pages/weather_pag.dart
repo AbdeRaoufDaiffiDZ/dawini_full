@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
-import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
-import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
-import 'package:dawini_full/patient_features/presentation/pages/pages/doctorDetails/doctor_details.dart';
-import 'package:dawini_full/patient_features/presentation/pages/widgets/clinic.dart';
-import 'package:dawini_full/patient_features/presentation/pages/widgets/doctorsList.dart';
+import 'package:dawini_full/patient_features/presentation/pages/widgets/clinics/clinicsList.dart';
+import 'package:dawini_full/patient_features/presentation/pages/widgets/doctors/doctorsList.dart';
 import 'package:dawini_full/patient_features/presentation/pages/widgets/serachMenu.dart';
 import 'package:dawini_full/patient_features/presentation/pages/widgets/specialityList.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Containe extends StatefulWidget {
-  Containe({
+  const Containe({
     super.key,
   });
 
@@ -27,6 +24,8 @@ class _DoctorPageState extends State<Containe> {
   @override
   @override
   Widget build(BuildContext context) {
+    final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
           iconSize: 26,
@@ -72,25 +71,8 @@ class _DoctorPageState extends State<Containe> {
                   ),
                   SizedBox(height: 10.h),
                   Container(
-                    //  CLinics card
-                    child: BlocBuilder<ClinicsBloc, ClinicsState>(
-                        builder: (context, state) {
-                      if (state is ClinicLoading) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (state is ClinicLoaded) {
-                        final clinics = state.clinic;
-
-                        return ClinicWidget(
-                          clinics: clinics,
-                        ); /////////////
-                      } else if (state is ClinicLoadingFailure) {
-                        return ErrorWidget(state.message);
-                      } else {
-                        context.read<ClinicsBloc>().add(ClinicinitialEvent());
-                        return Container();
-                      }
-                    }),
-                  ),
+                      //  CLinics card
+                      child: ClinicsList()),
                   SizedBox(height: 16.h),
                   Row(
                     // Specaility search scroll
@@ -137,12 +119,18 @@ class _DoctorPageState extends State<Containe> {
                         SizedBox(width: 70.w),
                         GestureDetector(
                           onTap: () {
+                            dataBloc.add(onSeeAllDoctors());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Scaffold(
                                     appBar: AppBar(),
-                                    body: DoctorsList(),
+                                    body: Column(
+                                      children: [
+                                        SearchMenu(),
+                                        DoctorsList(),
+                                      ],
+                                    ),
                                   ),
                                 ));
                           },

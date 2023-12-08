@@ -11,38 +11,46 @@ final class DoctorInitial extends DoctorState {}
 
 final class DoctorLoading extends DoctorState {}
 
-final class DoctorLoaded extends DoctorState {
+final class DoctorFilterSpeciality extends DoctorState {
+  final String speciality;
+
   final List<DoctorEntity> doctor;
 
-  DoctorLoaded({required this.doctor});
+  const DoctorFilterSpeciality(
+      {required this.speciality, required this.doctor});
 
   @override
-  List<Object> get props => [doctor];
+  List<Object> get props => [doctor, speciality];
 }
 
-final class ChossenDoctor extends DoctorState {
-  final DoctorEntity doctor;
+final class DoctorLoaded extends DoctorState {}
 
-  ChossenDoctor({required this.doctor});
+final class ChossenDoctor extends DoctorState {}
+
+final class DoctorSearchName extends DoctorState {
+  final String name;
+
+  const DoctorSearchName({required this.name});
 
   @override
-  List<Object> get props => [doctor];
+  List<Object> get props => [name];
 }
 
 final class DoctorLoadingFailure extends DoctorState {
   final String message;
 
-  DoctorLoadingFailure({required this.message});
+  const DoctorLoadingFailure({required this.message});
 
   @override
   List<Object> get props => [message];
 }
 
-final class SeeAllDoctors extends DoctorState {
-  final List<DoctorEntity> doctor;
+final class SeeAllDoctors extends DoctorState {}
 
-  SeeAllDoctors({required this.doctor});
+final class FilterByWilaya extends DoctorState {
+  final String wilaya;
 
+  const FilterByWilaya({required this.wilaya});
   @override
-  List<Object> get props => [doctor];
+  List<Object> get props => [wilaya];
 }

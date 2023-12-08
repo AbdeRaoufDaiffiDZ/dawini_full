@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dawini_full/core/error/failure.dart';
+import 'package:dawini_full/patient_features/data/repositories/clinic_repository_impl.dart';
 import 'package:dawini_full/patient_features/domain/entities/clinic.dart';
 import 'package:dawini_full/patient_features/domain/repositories/clinic_repository.dart';
 
@@ -18,11 +19,9 @@ class GetClinicsInfoUseCase {
 }
 
 class GetClinicsStreamInfoUseCase {
-  final ClinicRepository clinicRepository;
+  static final ClinicRepository clinicRepository = ClinicRepositoryImpl();
 
-  GetClinicsStreamInfoUseCase({required this.clinicRepository});
-
-  Stream<List<ClinicEntity>> excute() {
+  static Stream<List<ClinicEntity>> excute() {
     return clinicRepository.streamClincss();
   }
 }

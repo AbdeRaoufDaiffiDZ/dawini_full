@@ -32,26 +32,26 @@ final locator = GetIt.instance;
 Future<void> setupLocator() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  locator.registerFactory(() => DoctorBloc(locator(), locator()));
+  locator.registerFactory(() => DoctorBloc(
+        locator(),
+      ));
   locator.registerFactory(() => DoctorAuthBloc(locator()));
   locator.registerFactory(() => IntroductionBloc(locator(), locator(),
       locator(), locator(), locator(), locator(), locator()));
-  locator.registerFactory(() => ClinicsBloc(locator(), locator()));
+  locator.registerFactory(() => ClinicsBloc(getClinicsInfoUseCase: locator()));
 
   // usecase
   // locator.registerLazySingleton(
   //     () => GetCurrentWeatherUseCase(weatherRepository: locator()));
   locator.registerLazySingleton(
       () => GetDoctorsInfoUseCase(doctorRepository: locator()));
-  locator.registerLazySingleton(
-      () => GetDoctorsStreamInfoUseCase(doctorRepository: locator()));
+  locator.registerLazySingleton(() => GetDoctorsStreamInfoUseCase());
   locator.registerLazySingleton(
       () => DoctorAuthStateUseCase(repository: locator()));
   // clinics part
   locator.registerLazySingleton(
       () => GetClinicsInfoUseCase(clinicRepository: locator()));
-  locator.registerLazySingleton(
-      () => GetClinicsStreamInfoUseCase(clinicRepository: locator()));
+  locator.registerLazySingleton(() => GetClinicsStreamInfoUseCase());
   locator.registerLazySingleton(
       () => ClinicAuthStateUseCase(repository: locator()));
 
@@ -71,22 +71,20 @@ Future<void> setupLocator() async {
   // locator.registerLazySingleton<WeatherRepository>(
   //   () => WeatherRepositoryImpl(weatherRemoteDataSource: locator()),
   // );
-  locator.registerLazySingleton<DoctorRepository>(
-      () => DcotrRepositoryImpl(doctorRemoteDataSource: locator()));
+  locator.registerLazySingleton<DoctorRepository>(() => DcotrRepositoryImpl());
 
   // clinics part
-  locator.registerLazySingleton<ClinicRepository>(
-      () => ClinicRepositoryImpl(clinicsRemoteDataSource: locator()));
+  locator.registerLazySingleton<ClinicRepository>(() => ClinicRepositoryImpl());
   locator.registerLazySingleton<IntroductionRepository>(
       () => IntroductionRepositoryImpl(dataSource: locator()));
 
   locator.registerLazySingleton<DoctorRemoteDataSource>(
-      () => DoctorRemoteDataSourceImpl(locator(), locator(), locator()));
+      () => DoctorRemoteDataSourceImpl());
   locator.registerLazySingleton<LocalDataSource>(
       () => LocalDataSourceImpl(prefs: locator()));
 
   locator.registerLazySingleton<ClinicsRemoteDataSource>(
-      () => ClinicsRemoteDataSourceImpl(locator(), locator(), locator()));
+      () => ClinicsRemoteDataSourceImpl());
 
   // external
   locator.registerLazySingleton(() => http.Client());

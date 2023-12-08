@@ -38,8 +38,8 @@ class onDoctorsearchByName extends DoctorEvent {
 
 class onDoctorsearchByspeciality extends DoctorEvent {
   final String speciality;
-
-  onDoctorsearchByspeciality({required this.speciality});
+  final List<DoctorEntity> doctors;
+  onDoctorsearchByspeciality({required this.doctors, required this.speciality});
 
   @override
   List<Object> get props => [speciality];

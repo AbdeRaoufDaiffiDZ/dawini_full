@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class DoctorEntity extends Equatable {
+  final String uid;
   final String firstName;
   final String lastName;
   final String phoneNumber;
@@ -11,7 +12,8 @@ class DoctorEntity extends Equatable {
   final int turn;
 
   DoctorEntity(
-      {required this.city,
+      {required this.uid,
+      required this.city,
       required this.turn,
       required this.speciality,
       required this.atSerivce,
@@ -30,6 +32,7 @@ class DoctorEntity extends Equatable {
         city,
         atSerivce,
         wilaya,
-        turn
+        turn,
+        uid
       ];
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dawini_full/core/error/failure.dart';
+import 'package:dawini_full/patient_features/data/repositories/doctor_repository_impl.dart';
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:dawini_full/patient_features/domain/repositories/doctor_repository.dart';
 
@@ -18,11 +19,9 @@ class GetDoctorsInfoUseCase {
 }
 
 class GetDoctorsStreamInfoUseCase {
-  final DoctorRepository doctorRepository;
+  static final DoctorRepository doctorRepository = DcotrRepositoryImpl();
 
-  GetDoctorsStreamInfoUseCase({required this.doctorRepository});
-
-  Stream<List<DoctorEntity>> excute() {
+  static Stream<List<DoctorEntity>> excute() {
     return doctorRepository.streamDoctors();
   }
 }

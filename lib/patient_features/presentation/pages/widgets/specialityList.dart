@@ -1,3 +1,5 @@
+import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
+import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,44 +28,59 @@ class _SpecialityListState extends State<SpecialityList> {
   Widget build(BuildContext context) {
     final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
 
-    return Container(
-      height: 100.h,
-      child: ListView.builder(
-        itemCount: mylist.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 8.h),
-            child: Column(
-              children: [
-                Container(
-                  height: 50.h,
-                  width: 50.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey.shade200,
+    return StreamBuilder<List<DoctorEntity>>(
+        stream: GetDoctorsStreamInfoUseCase.excute(),
+        builder: (context, snapshot) {
+          late final List<DoctorEntity> data;
+          if (snapshot.data == null) {
+            data = [];
+          } else {
+            if (snapshot.data!.isEmpty) {
+              data = [];
+            } else {
+              data = snapshot.data!;
+            }
+          }
+          return Container(
+            height: 100.h,
+            child: ListView.builder(
+              itemCount: mylist.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 8.h),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50.h,
+                        width: 50.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade200,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            mylist[index]["icon"] as IconData,
+                            color: Colors.teal,
+                          ),
+                          onPressed: () {
+                            dataBloc.add(onDoctorsearchByspeciality(
+                                doctors: data,
+                                speciality: (mylist[index]["text"] as String)
+                                    .toLowerCase()));
+                          },
+                        ),
+                      ),
+                      Text(
+                        mylist[index]["text"] as String,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
-                  child: IconButton(
-                    icon: Icon(
-                      mylist[index]["icon"] as IconData,
-                      color: Colors.teal,
-                    ),
-                    onPressed: () {
-                      dataBloc.add(onDoctorsearchByspeciality(
-                          speciality:
-                              (mylist[index]["text"] as String).toLowerCase()));
-                    },
-                  ),
-                ),
-                Text(
-                  mylist[index]["text"] as String,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ],
+                );
+              },
+              scrollDirection: Axis.horizontal,
             ),
           );
-        },
-        scrollDirection: Axis.horizontal,
-      ),
-    );
+        });
   }
 }
