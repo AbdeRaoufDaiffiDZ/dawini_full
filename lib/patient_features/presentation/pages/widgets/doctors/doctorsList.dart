@@ -1,3 +1,4 @@
+import 'package:dawini_full/core/loading/loading.dart';
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/Condtions/doctor_state_conditions.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
@@ -20,20 +21,25 @@ class _DoctorsListState extends State<DoctorsList> {
     return StreamBuilder<List<DoctorEntity>>(
         stream: GetDoctorsStreamInfoUseCase.excute(),
         builder: (context, snapshot) {
-          late final List<DoctorEntity> data;
-          if (snapshot.data == null) {
-            data = [];
-          } else {
-            if (snapshot.data!.isEmpty) {
+          if (!snapshot.hasData) {
+            return Loading();
+          }
+          {
+            late final List<DoctorEntity> data;
+            if (snapshot.data == null) {
               data = [];
             } else {
-              data = snapshot.data!;
+              if (snapshot.data!.isEmpty) {
+                data = [];
+              } else {
+                data = snapshot.data!;
+              }
             }
+            return BlocBuilder<DoctorBloc, DoctorState>(
+                builder: (context, state) {
+              return DoctorStateConditions(state, data);
+            });
           }
-          return BlocBuilder<DoctorBloc, DoctorState>(
-              builder: (context, state) {
-            return DoctorStateConditions(state, data);
-          });
         });
   }
 }

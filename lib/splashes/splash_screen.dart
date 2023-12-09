@@ -27,7 +27,7 @@ class _SplashState extends State<Splash> {
       splash: Center(
           child: Container(
         child: Image.asset(
-          'assets/images/logo.png',
+          'assets/images/dawini.png',
         ),
         // child: const Text(
         //   "DAWINI APP",

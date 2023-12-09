@@ -23,14 +23,18 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
 
   @override
   Future<List<DoctorModel>> getDoctorsInfo() async {
-    final response = await client.get(Uri.parse(Urls.doctorInfoUrl()));
-    if (response.statusCode == 200) {
-      List<DoctorModel> users =
-          (json.decode(response.body) as List).map((data) {
-        return DoctorModel.fromJson(data);
-      }).toList();
-      return users;
-    } else {
+    try {
+      final response = await client.get(Uri.parse(Urls.doctorInfoUrl()));
+      if (response.statusCode == 200) {
+        List<DoctorModel> users =
+            (json.decode(response.body) as List).map((data) {
+          return DoctorModel.fromJson(data);
+        }).toList();
+        return users;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
       throw ServerException();
     }
   }
