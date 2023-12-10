@@ -3,6 +3,7 @@
 import 'package:dawini_full/main.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -21,8 +22,8 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      splashIconSize: 150,
-      curve: Curves.easeInOut,
+      splashIconSize: 60.h,
+      curve: Curves.easeInCirc,
       duration: 2000,
       splash: Center(
           child: Container(

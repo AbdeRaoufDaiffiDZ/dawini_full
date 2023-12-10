@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LanguageScreen extends StatefulWidget {
-  final Size device_size;
   final String Language;
   // ignore: non_constant_identifier_names
-  const LanguageScreen(
-      {super.key, required this.Language, required this.device_size});
+  const LanguageScreen({
+    super.key,
+    required this.Language,
+  });
 
   @override
   State<LanguageScreen> createState() => _LanguageScreenState();
@@ -40,7 +41,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               );
             }),
             SizedBox(
-              height: widget.device_size.height * 0.05,
+              height: 0.05,
             ),
             MaterialButton(
               color: "Arabic" == widget.Language ? Colors.green : Colors.grey,
@@ -69,11 +70,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
               },
               child: Text('French'),
             ),
+            SizedBox(height: 0.05), // Add spacing between text and button
             SizedBox(
-                height: widget.device_size.height *
-                    0.05), // Add spacing between text and button
-            SizedBox(
-              width: widget.device_size.width * 0.5,
+              width: 0.5,
               child: ElevatedButton(
                 onPressed: () {
                   // Add the action you want to perform when the button is pressed

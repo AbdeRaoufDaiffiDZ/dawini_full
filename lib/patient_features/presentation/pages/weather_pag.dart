@@ -22,7 +22,6 @@ class _DoctorPageState extends State<Containe> {
   int selectedindex2 = 0;
 
   @override
-  @override
   Widget build(BuildContext context) {
     final DoctorBloc dataBloc = BlocProvider.of<DoctorBloc>(context);
 
@@ -59,14 +58,40 @@ class _DoctorPageState extends State<Containe> {
                 children: [
                   SearchMenu(),
                   SizedBox(height: 10.h),
-                  Align(
-                    //  recommended clinics
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 11.w),
-                      child: Text("Recommended clinics",
-                          style: TextStyle(
-                              fontSize: 18.sp, fontWeight: FontWeight.w600)),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 8.h, left: 11.w),
+                    child: Row(
+                      children: [
+                        Text("Recommended clinics",
+                            style: TextStyle(
+                                fontSize: 17.sp, fontWeight: FontWeight.w600)),
+                        SizedBox(width: 110.w),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Scaffold(
+                                    appBar: AppBar(),
+                                    body: Column(
+                                      children: [
+                                        SearchMenuClinics(),
+                                        SizedBox(
+                                          height: 20.h,
+                                        ),
+                                        ClinicsList(),
+                                      ],
+                                    ),
+                                  ),
+                                ));
+                          },
+                          child: Text("See All",
+                              style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF2CDBC6))),
+                        )
+                      ],
                     ),
                   ),
                   SizedBox(height: 10.h),

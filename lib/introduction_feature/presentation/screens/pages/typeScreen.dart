@@ -1,12 +1,12 @@
 import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TypeScreen extends StatefulWidget {
   final String type;
-  final Size device_size;
 
-  const TypeScreen({super.key, required this.type, required this.device_size});
+  const TypeScreen({super.key, required this.type});
 
   @override
   State<TypeScreen> createState() => _TypeScreenState();
@@ -29,7 +29,7 @@ class _TypeScreenState extends State<TypeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: widget.device_size.height * 0.2),
+            SizedBox(height: 0.2),
             MaterialButton(
               color: "patient" == widget.type ? Colors.green : Colors.grey,
               onPressed: () {
@@ -52,7 +52,7 @@ class _TypeScreenState extends State<TypeScreen> {
             ), // Add spacing between text and button
             SizedBox(height: 20.0),
             SizedBox(
-              width: widget.device_size.width * 0.5,
+              width: 0.5,
               child: ElevatedButton(
                 onPressed: () {
                   // Add the action you want to perform when the button is pressed
@@ -80,6 +80,141 @@ class _TypeScreenState extends State<TypeScreen> {
             //   child: Text("I'm a Doctor"),
             // )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class UserTypeSelector extends StatefulWidget {
+  final String type;
+
+  const UserTypeSelector({Key? key, required this.type}) : super(key: key);
+
+  @override
+  State<UserTypeSelector> createState() => _UserTypeSelectorState();
+}
+
+class _UserTypeSelectorState extends State<UserTypeSelector> {
+  String MyTypeIs = "";
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    final IntroductionBloc bloc = BlocProvider.of<IntroductionBloc>(context);
+
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20.h,
+              ),
+              Container(
+                width: 250.w,
+                margin: const EdgeInsets.all(8),
+                child: Image.asset("assets/images/pp.png"),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Container(
+                  child: Image.asset(
+                "assets/images/dawini.png",
+                width: 140.w,
+                height: 36.h,
+              )),
+              Text(
+                "For effortless Appointment Booking",
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 17.sp,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+              Text("Bridging Doctors and Patients",
+                  style: TextStyle(
+                      fontSize: 15.sp,
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black45)),
+              SizedBox(height: 20.h),
+              usertypeContainer("Looking for a doctor", bloc),
+              usertypeContainer("Im doctor", bloc),
+              SizedBox(
+                height: 20.h,
+              ),
+              InkWell(
+                onTap: () {
+                  if (isSelected) {
+                    bloc.add(NextPage(id: 3));
+                  }
+                },
+                child: Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 50.w, vertical: 16.h),
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Color(0xFF2CDBC6)
+                        : Color.fromARGB(108, 44, 219, 199),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Next",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20.sp,
+                        color: Colors.white,
+                        fontFamily: 'Nunito',
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget usertypeContainer(String MyType, IntroductionBloc bloc) {
+    return InkWell(
+      onTap: () {
+        if (MyType == "Looking for a doctor") {
+          bloc.add(onTypeChoose(type: "patient"));
+        } else if (MyType == "Im doctor") {
+          bloc.add(onTypeChoose(type: "doctor"));
+        }
+        isSelected = true;
+        setState(() {
+          MyTypeIs = MyType;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        width: 150.w,
+        height: 40.h,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: MyTypeIs == MyType
+                ? const Color(0xFF2CDBC6)
+                : Colors.grey.shade300,
+            width: 2.w,
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Center(
+          child: Text(
+            MyType,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontFamily: 'Nunito',
+            ),
+          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:dawini_full/core/loading/loading.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/pages/myApp.dart';
 import 'package:dawini_full/splashes/splash_screen.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:dawini_full/firebase_options.dart';
 import 'package:dawini_full/injection_container.dart';
 import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduction_bloc.dart';
@@ -73,23 +74,40 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isConnected = false;
+
   bool status = false;
   @override
   void initState() {
     super.initState();
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      final hasInternet = status == InternetConnectionStatus.connected;
+      setState(() {
+        isConnected = hasInternet;
+      });
+      _showSnackBar(hasInternet);
+    });
     _loadStatus();
+  }
+
+  void _showSnackBar(bool hasInternet) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content:
+          Text(hasInternet ? 'Internet Restored' : 'No Internet Connection'),
+      backgroundColor: hasInternet ? Colors.green : Colors.red,
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    Size device_size = MediaQuery.of(context).size;
-
     if (status) {
-      return Mypage();
+      if (status) {
+        return Mypage();
+      }
+      return Scaffold(key: _scaffoldKey, body: Center(child: Loading()));
     } else {
-      return PagesShower(
-        size: device_size,
-      );
+      return PagesShower();
     }
   }
 

@@ -1,13 +1,15 @@
+import 'package:dawini_full/core/loading/loading.dart';
 import 'package:dawini_full/introduction_feature/presentation/bloc/bloc/introduction_bloc.dart';
-import 'package:dawini_full/introduction_feature/presentation/screens/pages/languageScreen.dart';
+import 'package:dawini_full/introduction_feature/presentation/screens/pages/localization.dart';
 import 'package:dawini_full/introduction_feature/presentation/screens/pages/typeScreen.dart';
 import 'package:dawini_full/patient_features/presentation/pages/myApp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PagesShower extends StatefulWidget {
-  final Size size;
-  const PagesShower({super.key, required this.size});
+  const PagesShower({
+    super.key,
+  });
 
   @override
   State<PagesShower> createState() => _PagesShowerState();
@@ -21,22 +23,19 @@ class _PagesShowerState extends State<PagesShower> {
     return BlocBuilder<IntroductionBloc, IntroductionState>(
       builder: (context, state) {
         if (state is LanguageState) {
-          return LanguageScreen(
-            Language: state.language,
-            device_size: widget.size,
-          );
+          return Localisation(languageSys: state.language);
         } else if (state is TypeState) {
-          return TypeScreen(
+          return UserTypeSelector(
             type: state.type,
-            device_size: widget.size,
           );
         } else if (state is LoadingState) {
-          return const CircularProgressIndicator.adaptive(
-            backgroundColor: Colors.green,
-          );
+          return const Loading();
         } else if (state is IgnoreIntorductionState) {
-          if (state.Screen == 'doctor') {
-            return Mypage();
+          if (state.Screen == 'patient') {
+            bloc.add(NextPage(id: 1));
+            return Center();
+
+            // return Mypage();
           } else {
             /////////////////////////////////////    here you will go to patients screen
             bloc.add(NextPage(id: 1));

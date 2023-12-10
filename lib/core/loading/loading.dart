@@ -11,7 +11,11 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: LoadingAnimationWidget.waveDots(color: Colors.green, size: 200));
+    return Container(
+      color: Colors.white,
+      child: Center(
+          child: LoadingAnimationWidget.waveDots(
+              color: Color.fromARGB(255, 4, 203, 203), size: 200)),
+    );
   }
 }

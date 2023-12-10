@@ -49,11 +49,12 @@ dependencies:
   rxdart:
   dartz:
   firebase_database:
-   
+  connectivity_plus:
   dropdown_button2: 
   eva_icons_flutter: 
   curved_navigation_bar: 
   motion_tab_bar_v2: 
+  internet_connection_checker:
   google_nav_bar: 
   flutter_screenutil: 
   flutter_easyloading: ^3.0.5

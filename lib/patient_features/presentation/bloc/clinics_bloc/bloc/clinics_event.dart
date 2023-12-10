@@ -34,6 +34,8 @@ class onClinicsearchByName extends ClinicsEvent {
   List<Object> get props => [clinicName];
 }
 
+final class onSeeAllClinics extends ClinicsEvent {}
+
 class onClinicsearchByWilaya extends ClinicsEvent {
   final String wilaya;
 

@@ -22,6 +22,8 @@ class ClinicsBloc extends Bloc<ClinicsEvent, ClinicsState> {
         emit(ClinicsSearchName(name: event.clinicName));
       } else if (event is onClinicsearchByWilaya) {
         emit(FilterByWilayaClinic(wilaya: event.wilaya));
+      } else if (event is onSeeAllClinics) {
+        emit(SeeAllClinics());
       } else if (event is ClinicinitialEvent) {
         final data = getClinicsInfoUseCase.excute();
 

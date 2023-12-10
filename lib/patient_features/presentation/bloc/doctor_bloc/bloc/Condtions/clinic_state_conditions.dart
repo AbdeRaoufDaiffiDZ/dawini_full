@@ -1,13 +1,15 @@
+import 'package:dawini_full/core/loading/loading.dart';
 import 'package:dawini_full/patient_features/domain/entities/clinic.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
+import 'package:dawini_full/patient_features/presentation/pages/widgets/clinics/ClinicWidgetList.dart';
 import 'package:dawini_full/patient_features/presentation/pages/widgets/clinics/clinic.dart';
 import 'package:flutter/material.dart';
 
 Widget ClinicsStateConditions(ClinicsState state, List<ClinicEntity> data) {
   if (state is ClinicLoading) {
-    return Center(child: CircularProgressIndicator());
+    return Loading();
   } else if (state is SeeAllClinics) {
-    return ClinicWidget(
+    return ClinicWidgetList(
       clinics: data,
     );
   } else if (state is ClinicLoaded) {
@@ -25,7 +27,7 @@ Widget ClinicsStateConditions(ClinicsState state, List<ClinicEntity> data) {
               element.wilaya.toLowerCase().contains(state.wilaya.toLowerCase()))
           .toList();
     }
-    return ClinicWidget(
+    return ClinicWidgetList(
       clinics: clinics,
     );
   } else if (state is ClinicsSearchName) {
@@ -35,7 +37,7 @@ Widget ClinicsStateConditions(ClinicsState state, List<ClinicEntity> data) {
             element.ClinicName.toLowerCase().contains(state.name.toLowerCase()))
         .toList();
 
-    return ClinicWidget(
+    return ClinicWidgetList(
       clinics: clinics,
     );
   } else if (state is ClinicsFilterSpeciality) {
@@ -45,7 +47,7 @@ Widget ClinicsStateConditions(ClinicsState state, List<ClinicEntity> data) {
             .contains(state.speciality.toLowerCase()))
         .toList();
 
-    return ClinicWidget(
+    return ClinicWidgetList(
       clinics: clinics,
     );
   } else if (state is ClinicLoadingFailure) {
