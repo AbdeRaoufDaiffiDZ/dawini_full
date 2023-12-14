@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 class PatientEntity extends Equatable {
@@ -10,9 +8,10 @@ class PatientEntity extends Equatable {
   final String doctorRemark;
   final String AppointmentDate;
   final int turn;
-
+  final String today;
   PatientEntity(
-      {required this.AppointmentDate,
+      {required this.today,
+      required this.AppointmentDate,
       required this.turn,
       required this.doctorRemark,
       required this.address,
@@ -23,6 +22,7 @@ class PatientEntity extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
+        today,
         lastName,
         firstName,
         phoneNumber,
@@ -41,23 +41,7 @@ class PatientEntity extends Equatable {
       'doctorRemark': doctorRemark,
       'AppointmentDate': AppointmentDate,
       'turn': turn,
+      'today': today
     };
   }
-
-  factory PatientEntity.fromMap(Map<String, dynamic> map) {
-    return PatientEntity(
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
-      phoneNumber: map['phoneNumber'] ?? '',
-      address: map['address'] ?? '',
-      doctorRemark: map['doctorRemark'] ?? '',
-      AppointmentDate: map['AppointmentDate'] ?? '',
-      turn: map['turn']?.toInt() ?? 0,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory PatientEntity.fromJson(String source) =>
-      PatientEntity.fromMap(json.decode(source));
 }

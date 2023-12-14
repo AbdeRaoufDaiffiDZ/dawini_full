@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class DoctorRepository {
   Future<Either<Failure, List<DoctorEntity>>> getDoctorsInfo();
+  Future<Either<Failure, List<DoctorEntity>>> getFavoriteDoctors();
+  Future<Either<Failure, List<DoctorEntity>>> setFavoriteDoctors();
+
   Stream<List<DoctorEntity>> streamDoctors();
   Future<Either<Failure, UserCredential>> authDoctor(email, password);
 }

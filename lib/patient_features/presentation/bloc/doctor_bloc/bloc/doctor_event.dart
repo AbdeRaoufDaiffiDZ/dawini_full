@@ -18,6 +18,8 @@ class onDoctorChoose extends DoctorEvent {
   List<Object> get props => [doctor];
 }
 
+class onLoadFavoriteDoctor extends DoctorEvent {}
+
 class doctorsInfoUpdated extends DoctorEvent {
   final List<DoctorEntity> doctors;
 

@@ -15,7 +15,7 @@ class _LoadingState extends State<Loading> {
       color: Colors.white,
       child: Center(
           child: LoadingAnimationWidget.waveDots(
-              color: Color.fromARGB(255, 4, 203, 203), size: 200)),
+              color: Color(0xFF04CBCB), size: 200)),
     );
   }
 }

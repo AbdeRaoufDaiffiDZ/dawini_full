@@ -11,6 +11,15 @@ final class DoctorInitial extends DoctorState {}
 
 final class DoctorLoading extends DoctorState {}
 
+final class LoadFavoriteDoctor extends DoctorState {
+  final List<DoctorEntity> doctor;
+
+  const LoadFavoriteDoctor({required this.doctor});
+
+  @override
+  List<Object> get props => [doctor];
+}
+
 final class DoctorFilterSpeciality extends DoctorState {
   final String speciality;
 

@@ -46,4 +46,16 @@ class DcotrRepositoryImpl implements DoctorRepository {
       return Left(AuthenticatinFailure(message: e.code));
     }
   }
+
+  @override
+  Future<Either<Failure, List<DoctorEntity>>> getFavoriteDoctors() {
+    // TODO: implement getFavoriteDoctors
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<DoctorEntity>>> setFavoriteDoctors() {
+    // TODO: implement setFavoriteDoctors
+    throw UnimplementedError();
+  }
 }

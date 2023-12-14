@@ -39,6 +39,7 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     }
   }
 
+  @override
   Stream<List<DoctorModel>> streamDoctors() {
     List<DoctorModel> resulted = [];
     final result =

@@ -2,6 +2,7 @@ import 'package:dawini_full/patient_features/domain/entities/clinic.dart';
 import 'package:dawini_full/patient_features/presentation/pages/pages/clinicDetails/clinics_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ClinicWidgetList extends StatefulWidget {
   final List<ClinicEntity> clinics;
@@ -15,6 +16,8 @@ class ClinicWidgetList extends StatefulWidget {
 class _ClinicWidgetListState extends State<ClinicWidgetList> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations text = AppLocalizations.of(context)!;
+
     List<ClinicEntity> data = widget.clinics;
     return GestureDetector(
       onTap: () {},
@@ -128,8 +131,8 @@ class _ClinicWidgetListState extends State<ClinicWidgetList> {
                             Text(
                               data.isNotEmpty
                                   ? data[index].atSerivce
-                                      ? "At service "
-                                      : " Not at service "
+                                      ? text.at_service
+                                      : text.not_at_service
                                   : "",
                               style: TextStyle(
                                   fontSize: 12.sp, fontWeight: FontWeight.w500),

@@ -1,53 +1,45 @@
 import 'dart:convert';
-
-import 'package:dawini_full/patient_features/domain/entities/patient.dart';
+import 'package:dawini_full/patient_features/data/models/doctor_model.dart';
+import 'package:dawini_full/patient_features/data/models/patient_model.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalDataSourceDoctors {
-  Future<List<PatientEntity>> MyDoctorsAppointments();
-  Future<String> SetAdoctorAppointment(
-      PatientEntity patientEntity, String uid, String doctorName);
+  Future<List<PatientModel>> MyDoctorsAppointments();
+  Future<String> SetAdoctorAppointment(PatientModel patient);
+  Future<String> DeleteAdoctorAppointment(PatientModel patient);
+
   Future<String> SetAFavoriteDoctors(String doctorUid);
-  Future<List<String>> MyFavoriteDoctors();
+  Future<List<DoctorModel>> MyFavoriteDoctors();
 }
 
 class LocalDataSourceImpl extends LocalDataSourceDoctors {
-  final SharedPreferences prefs;
-
-  LocalDataSourceImpl({required this.prefs});
+  static final Future<SharedPreferences> prefs =
+      SharedPreferences.getInstance();
 
   @override
-  Stream<String> getType() async* {
-    final String? status = prefs.getString('type');
-    if (status == null) {
-      yield 'noon';
+  Future<List<PatientModel>> MyDoctorsAppointments() async {
+    SharedPreferences pref = await prefs;
+    String? patientsString = pref.getString('patients');
+    if (patientsString == null) {
+      return [];
     } else {
-      yield status;
+      var patientMapList = jsonDecode(patientsString!) as List;
+      return patientMapList
+          .map((patientMap) => PatientModel.fromJson(patientMap))
+          .toList();
     }
   }
 
   @override
-  Future<List<PatientEntity>> MyDoctorsAppointments() async {
-    String? patientsString = prefs.getString('MyAppointments');
-    var patientMapList = jsonDecode(patientsString!) as List;
-    return patientMapList
-        .map((patientMap) => PatientEntity.fromJson(patientMap))
-        .toList(); //
-  }
-
-  @override
-  Future<List<String>> MyFavoriteDoctors() async {
-    // TODO: implement MyDoctorsAppointments
-    throw UnimplementedError();
-  }
-
-  @override
   Future<String> SetAFavoriteDoctors(String doctorUid) async {
-    List<String>? favorite = prefs.getStringList('FavoriteDoctros');
+    SharedPreferences pref = await prefs;
+
+    List<String>? favorite = pref.getStringList('FavoriteDoctros');
     try {
       favorite!.add(doctorUid);
 
-      prefs.setStringList("FavoriteDoctros", favorite);
+      pref.setStringList("FavoriteDoctros", favorite);
 
       return await 'Info Saving done';
     } catch (e) {
@@ -56,17 +48,48 @@ class LocalDataSourceImpl extends LocalDataSourceDoctors {
   }
 
   @override
-  Future<String> SetAdoctorAppointment(
-      PatientEntity patientEntity, String uid, String doctorName) async {
+  Future<String> SetAdoctorAppointment(PatientModel patient) async {
     try {
-      List<PatientEntity> patients = await MyDoctorsAppointments();
-      patients.add(patientEntity);
+      String datetime =
+          DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
+      List<PatientModel> patients = await MyDoctorsAppointments();
+      SharedPreferences pref = await prefs;
+      if (patient.AppointmentDate != datetime) {
+        patient.today = 'no';
+      } else {
+        patient.today = 'yes';
+      }
+      patients.add(patient);
       String patientsString = jsonEncode(patients
           .map((patient) => patient.toJson())
           .toList()); // Assuming you have a toJson method in your PatientEntity class
-      prefs.setString('patients', patientsString);
+      pref.setString('patients', patientsString);
 
-      return await 'Info Saving done';
+      return 'Info Saving done';
+    } catch (e) {
+      throw 'error when saving info Try again please';
+    }
+  }
+
+  @override
+  Future<List<DoctorModel>> MyFavoriteDoctors() {
+    // TODO: implement MyFavoriteDoctors
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> DeleteAdoctorAppointment(PatientModel patient) async {
+    try {
+      SharedPreferences pref = await prefs;
+
+      List<PatientModel> patients = await MyDoctorsAppointments();
+      patients.remove(patient);
+      String patientsString = jsonEncode(patients
+          .map((patient) => patient.toJson())
+          .toList()); // Assuming you have a toJson method in your PatientEntity class
+      pref.setString('patients', patientsString);
+
+      return 'patient removed';
     } catch (e) {
       throw 'error when saving info Try again please';
     }

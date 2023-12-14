@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DoctorsList extends StatefulWidget {
   const DoctorsList({super.key});
@@ -56,6 +57,8 @@ class Doctors extends StatefulWidget {
 class _DoctorsState extends State<Doctors> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations text = AppLocalizations.of(context)!;
+
     List<DoctorEntity> data = widget.doctors;
     return GestureDetector(
       onTap: () {},
@@ -166,8 +169,8 @@ class _DoctorsState extends State<Doctors> {
                             Text(
                               data.isNotEmpty
                                   ? data[index].atSerivce
-                                      ? "At service "
-                                      : " Not at service "
+                                      ? text.at_service
+                                      : text.not_at_service
                                   : "",
                               style: TextStyle(
                                   fontSize: 12.sp, fontWeight: FontWeight.w500),

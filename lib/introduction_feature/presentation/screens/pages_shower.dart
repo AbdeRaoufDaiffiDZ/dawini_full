@@ -32,10 +32,7 @@ class _PagesShowerState extends State<PagesShower> {
           return const Loading();
         } else if (state is IgnoreIntorductionState) {
           if (state.Screen == 'patient') {
-            bloc.add(NextPage(id: 1));
-            return Center();
-
-            // return Mypage();
+            return Mypage();
           } else {
             /////////////////////////////////////    here you will go to patients screen
             bloc.add(NextPage(id: 1));
