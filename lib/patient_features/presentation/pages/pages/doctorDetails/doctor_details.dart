@@ -2,7 +2,7 @@
 
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
 import 'package:dawini_full/patient_features/domain/entities/patient.dart';
-import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
+import 'package:dawini_full/patient_features/domain/usecases/doctors_data_usecase.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/patient_bloc/patients/patients_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +99,9 @@ class _doctorDetailsState extends State<doctorDetails> {
                               firstName: _nameController.text,
                               lastName: _lastNameController.text,
                               phoneNumber: "phoneNumber",
-                              today: '');
+                              today: '',
+                              DoctorName: '',
+                              uid: 'Uid');
                           dataBloc.add(onPatientsSetAppointments(context,
                               patients: patient));
                         }

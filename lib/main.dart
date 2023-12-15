@@ -15,10 +15,20 @@ import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/do
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+            channelKey: 'basic_channel',
+            channelName: 'turn notification',
+            channelDescription:
+                'send notification when your turn is near or past')
+      ],
+      debug: true);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -85,7 +95,11 @@ class _MyWidgetState extends State<MyWidget> {
   @override
   void initState() {
     super.initState();
-
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
     _loadStatus();
   }
 

@@ -2,15 +2,20 @@ import 'package:equatable/equatable.dart';
 
 class PatientEntity extends Equatable {
   final String firstName;
+  final String today;
+
   final String lastName;
   final String phoneNumber;
   final String address;
   final String doctorRemark;
   final String AppointmentDate;
   final int turn;
-  final String today;
+  final String DoctorName;
+  final String uid;
   PatientEntity(
-      {required this.today,
+      {required this.DoctorName,
+      required this.uid,
+      required this.today,
       required this.AppointmentDate,
       required this.turn,
       required this.doctorRemark,
@@ -22,6 +27,8 @@ class PatientEntity extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
+        DoctorName,
+        uid,
         today,
         lastName,
         firstName,
@@ -41,7 +48,9 @@ class PatientEntity extends Equatable {
       'doctorRemark': doctorRemark,
       'AppointmentDate': AppointmentDate,
       'turn': turn,
-      'today': today
+      'today': today,
+      'DoctorName': DoctorName,
+      'uid': uid
     };
   }
 }

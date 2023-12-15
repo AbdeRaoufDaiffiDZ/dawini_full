@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 import 'package:dawini_full/patient_features/data/models/doctor_model.dart';
 import 'package:dawini_full/patient_features/data/models/patient_model.dart';
@@ -24,7 +26,7 @@ class LocalDataSourceImpl extends LocalDataSourceDoctors {
     if (patientsString == null) {
       return [];
     } else {
-      var patientMapList = jsonDecode(patientsString!) as List;
+      var patientMapList = jsonDecode(patientsString) as List;
       return patientMapList
           .map((patientMap) => PatientModel.fromJson(patientMap))
           .toList();
@@ -41,7 +43,7 @@ class LocalDataSourceImpl extends LocalDataSourceDoctors {
 
       pref.setStringList("FavoriteDoctros", favorite);
 
-      return await 'Info Saving done';
+      return 'Info Saving done';
     } catch (e) {
       throw 'error when saving info Try again please';
     }
@@ -73,7 +75,6 @@ class LocalDataSourceImpl extends LocalDataSourceDoctors {
 
   @override
   Future<List<DoctorModel>> MyFavoriteDoctors() {
-    // TODO: implement MyFavoriteDoctors
     throw UnimplementedError();
   }
 

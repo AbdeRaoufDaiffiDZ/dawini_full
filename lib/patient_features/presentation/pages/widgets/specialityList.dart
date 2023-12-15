@@ -1,5 +1,5 @@
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
-import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
+import 'package:dawini_full/patient_features/domain/usecases/doctors_data_usecase.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

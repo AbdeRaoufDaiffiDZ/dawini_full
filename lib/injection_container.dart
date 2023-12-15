@@ -20,7 +20,7 @@ import 'package:dawini_full/patient_features/domain/usecases/clinic_auth_state_u
 import 'package:dawini_full/patient_features/domain/usecases/doctor_auth_satet_usecase.dart';
 import 'package:dawini_full/patient_features/domain/usecases/appointments_local_usecase.dart';
 import 'package:dawini_full/patient_features/domain/usecases/get_clinics_info.dart';
-import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
+import 'package:dawini_full/patient_features/domain/usecases/doctors_data_usecase.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/auth_bloc/bloc/doctor_auth_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/clinics_bloc/bloc/clinics_bloc.dart';
 import 'package:dawini_full/patient_features/presentation/bloc/doctor_bloc/bloc/doctor_bloc.dart';
@@ -39,7 +39,8 @@ Future<void> setupLocator() async {
   locator.registerFactory(() => DoctorBloc(
         locator(),
       ));
-  locator.registerFactory(() => PatientsBloc(locator(), locator(), locator()));
+  locator.registerFactory(
+      () => PatientsBloc(locator(), locator(), locator(), locator()));
   locator.registerFactory(() => DoctorAuthBloc(locator()));
   locator.registerFactory(() => IntroductionBloc(locator(), locator(),
       locator(), locator(), locator(), locator(), locator()));
@@ -50,6 +51,7 @@ Future<void> setupLocator() async {
   //     () => GetCurrentWeatherUseCase(weatherRepository: locator()));
   locator.registerLazySingleton(
       () => GetDoctorsInfoUseCase(doctorRepository: locator()));
+  locator.registerLazySingleton(() => BookDoctorAppointmentUseCase());
   ////////////
   locator.registerLazySingleton(() => GetAppointmentLocalusecase());
   locator.registerLazySingleton(() => DeletAppointmentLocalusecase());

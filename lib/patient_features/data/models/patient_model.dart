@@ -13,7 +13,7 @@ class PatientModel extends PatientEntity {
   final String address;
   final String doctorRemark;
   final String AppointmentDate;
-  final int turn;
+  int turn;
   final String DoctorName;
   final String uid;
 
@@ -29,6 +29,8 @@ class PatientModel extends PatientEntity {
       required this.lastName,
       required this.phoneNumber})
       : super(
+            uid: uid,
+            DoctorName: DoctorName,
             today: today,
             AppointmentDate: AppointmentDate,
             turn: turn,
@@ -59,7 +61,9 @@ class PatientModel extends PatientEntity {
       'doctorRemark': doctorRemark,
       'AppointmentDate': AppointmentDate,
       'turn': turn,
-      'today': today
+      'today': today,
+      'uid': uid,
+      'DoctorName': DoctorName
     };
   }
 
@@ -72,7 +76,7 @@ class PatientModel extends PatientEntity {
       doctorRemark: map['doctorRemark'] ?? '',
       AppointmentDate: map['AppointmentDate'] ?? '',
       turn: map['turn']?.toInt() ?? 0,
-      uid: '',
+      uid: map['uid'] ?? "0",
       DoctorName: '',
       today: map['today'],
     );

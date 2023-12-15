@@ -1,7 +1,5 @@
-import 'package:dawini_full/introduction_feature/presentation/screens/pages/typeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:page_transition/page_transition.dart';
 
 class myappbar extends StatelessWidget implements PreferredSizeWidget {
   const myappbar({Key? key}) : super(key: key);

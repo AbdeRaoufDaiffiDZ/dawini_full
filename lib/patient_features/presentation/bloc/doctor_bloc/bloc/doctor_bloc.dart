@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 
 import 'package:dawini_full/patient_features/domain/entities/doctor.dart';
-import 'package:dawini_full/patient_features/domain/usecases/get_doctors_info.dart';
+import 'package:dawini_full/patient_features/domain/usecases/doctors_data_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 part 'doctor_event.dart';
