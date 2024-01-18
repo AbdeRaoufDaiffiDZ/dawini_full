@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class PatientEntity extends Equatable {
   final String firstName;
-  final String today;
+  final bool today;
 
   final String lastName;
   final String phoneNumber;

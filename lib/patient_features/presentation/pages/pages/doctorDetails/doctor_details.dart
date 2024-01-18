@@ -99,9 +99,9 @@ class _doctorDetailsState extends State<doctorDetails> {
                               firstName: _nameController.text,
                               lastName: _lastNameController.text,
                               phoneNumber: "phoneNumber",
-                              today: '',
-                              DoctorName: '',
-                              uid: 'Uid');
+                              today: true,
+                              DoctorName: doctors.first.lastName,
+                              uid: doctors.first.uid);
                           dataBloc.add(onPatientsSetAppointments(context,
                               patients: patient));
                         }

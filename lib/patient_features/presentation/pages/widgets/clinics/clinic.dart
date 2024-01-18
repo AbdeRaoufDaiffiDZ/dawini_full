@@ -21,14 +21,7 @@ class ClinicWidget extends StatefulWidget {
 
 class _ClinicWidgetState extends State<ClinicWidget> {
   PageController mycon = PageController(viewportFraction: 0.7.w);
-  final cc = [
-    Image.asset(
-      "assets/images/pp.png",
-      fit: BoxFit.cover,
-    ),
-    Image.asset("assets/images/xx.png"),
-    Image.asset("assets/images/cc.png")
-  ];
+
   late Timer timer;
 
   int selectedindex = 0;
@@ -65,7 +58,7 @@ class _ClinicWidgetState extends State<ClinicWidget> {
         controller: mycon,
         itemCount: widget.clinics.length,
         itemBuilder: (context, index) {
-          double scale = selectedindex == index ? 1.1 : 0.8;
+          double scale = selectedindex == index ? 0.9.h : 0.7.h;
 
           return GestureDetector(
             onTap: () {
@@ -87,21 +80,36 @@ class _ClinicWidgetState extends State<ClinicWidget> {
                     height: 60,
                     margin: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Color.fromARGB(72, 146, 146, 146),
+
+                        width: 2.w, // Set the border width
+                      ),
                     ),
                     child: Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 10.w),
+                          padding: EdgeInsets.only(left: 1.w),
                           child: Container(
-                            width: 120.w,
-                            height: double.infinity,
+                            margin: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(16),
+                              color: Color.fromARGB(31, 204, 204, 204)
+                                  .withOpacity(0.3),
+                              border: Border.all(
+                                color: const Color.fromARGB(
+                                    0, 158, 158, 158), // Set the border color
+                                width: 2.w, // Set the border width
+                              ),
                             ),
+                            height: 110.h,
+                            width: 100.h,
                             child: Image.asset(
-                              "assets/images/pp.png",
+                              "assets/images/clinic.png",
+                              fit: BoxFit.scaleDown,
+                              scale: 1.w,
                             ),
                           ),
                         ),

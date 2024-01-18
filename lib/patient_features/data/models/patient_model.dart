@@ -6,7 +6,7 @@ import 'package:dawini_full/patient_features/domain/entities/patient.dart';
 
 class PatientModel extends PatientEntity {
   final String firstName;
-  String today;
+  bool today;
 
   final String lastName;
   final String phoneNumber;

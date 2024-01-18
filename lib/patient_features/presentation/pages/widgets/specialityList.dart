@@ -13,16 +13,13 @@ class SpecialityList extends StatefulWidget {
 }
 
 class _SpecialityListState extends State<SpecialityList> {
-  final mylist = [
-    {"text": "ALL", "icon": Icons.all_out},
-    {"text": "Generalist", "icon": Icons.home},
-    {"text": "Dentist", "icon": Icons.work},
-    {"text": "Ophtahlam", "icon": Icons.school},
-    {"text": "azheme", "icon": Icons.access_alarms_sharp},
-    {"text": "Endocrino", "icon": Icons.access_time_filled_rounded},
-    {"text": "Cardiology", "icon": Icons.padding_outlined},
-    {"text": "Cardiology", "icon": Icons.zoom_in_map},
-    {"text": "Cardiology", "icon": Icons.cabin},
+  final List<Map<String, String>> mylist = [
+    {"text": "ALL", "icon": "assets/images/generalist.png"},
+    {"text": "Generalist", "icon": "assets/images/generalist.png"},
+    {"text": "Dentist", "icon": "assets/images/dentist.png"},
+    {"text": "Opthalm", "icon": "assets/images/opthalm.png"},
+    {"text": "Endocrino", "icon": "assets/images/endocrino.png"},
+    {"text": "Cardiology", "icon": "assets/images/cardiology.png"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -57,12 +54,9 @@ class _SpecialityListState extends State<SpecialityList> {
                           shape: BoxShape.circle,
                           color: Colors.grey.shade200,
                         ),
-                        child: IconButton(
-                          icon: Icon(
-                            mylist[index]["icon"] as IconData,
-                            color: Colors.teal,
-                          ),
-                          onPressed: () {
+                        child: GestureDetector(
+                          child: Image.asset(mylist[index]["icon"] as String),
+                          onTap: () {
                             dataBloc.add(onDoctorsearchByspeciality(
                                 doctors: data,
                                 speciality: (mylist[index]["text"] as String)

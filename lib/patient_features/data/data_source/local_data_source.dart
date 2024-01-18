@@ -57,10 +57,17 @@ class LocalDataSourceImpl extends LocalDataSourceDoctors {
       List<PatientModel> patients = await MyDoctorsAppointments();
       SharedPreferences pref = await prefs;
       if (patient.AppointmentDate != datetime) {
-        patient.today = 'no';
+        patient.today = false;
       } else {
-        patient.today = 'yes';
+        patient.today = true;
       }
+      patients.forEach((element) {
+        if (element.AppointmentDate != datetime) {
+          patient.today = false;
+        } else {
+          patient.today = true;
+        }
+      });
       patients.add(patient);
       String patientsString = jsonEncode(patients
           .map((patient) => patient.toJson())

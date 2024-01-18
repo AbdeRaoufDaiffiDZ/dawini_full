@@ -1,4 +1,5 @@
 import 'package:dawini_full/core/loading/loading.dart';
+import 'package:dawini_full/patient_features/domain/usecases/appointments_local_usecase.dart';
 import 'package:dawini_full/patient_features/presentation/pages/weather_pag.dart';
 import 'package:dawini_full/patient_features/presentation/pages/widgets/appBar.dart';
 
@@ -39,6 +40,9 @@ class _MypageState extends State<Mypage> {
       backgroundColor: hasInternet ? Colors.green : Colors.red,
     ));
   }
+
+  final GetAppointmentLocalusecase getAppointmentLocalusecase =
+      GetAppointmentLocalusecase();
 
   @override
   Widget build(BuildContext context) {

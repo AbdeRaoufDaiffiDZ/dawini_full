@@ -100,9 +100,15 @@ class _DoctorsState extends State<Doctors> {
                     children: [
                       Container(
                         margin: const EdgeInsets.all(8),
-                        color: Colors.grey.withOpacity(0.3),
+                        color:
+                            Color.fromARGB(31, 204, 204, 204).withOpacity(0.3),
                         height: 130.h,
                         width: double.infinity,
+                        child: Image.asset(
+                          "assets/images/maleDoctor.png",
+                          fit: BoxFit.scaleDown,
+                          scale: 1.5.w,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 8.w),
