@@ -17,7 +17,7 @@ class IntroductionRepositoryImpl implements IntroductionRepository {
   }
 
   @override
-  Future<String> getType() {
+  Stream<String> getType() {
     return dataSource.getType();
   }
 

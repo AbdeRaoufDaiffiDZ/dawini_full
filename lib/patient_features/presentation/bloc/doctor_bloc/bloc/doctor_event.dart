@@ -10,11 +10,15 @@ sealed class DoctorEvent extends Equatable {
 class onDoctorChoose extends DoctorEvent {
   final DoctorEntity doctor;
 
-  onDoctorChoose({required this.doctor});
+  onDoctorChoose({
+    required this.doctor,
+  });
 
   @override
   List<Object> get props => [doctor];
 }
+
+class onLoadFavoriteDoctor extends DoctorEvent {}
 
 class doctorsInfoUpdated extends DoctorEvent {
   final List<DoctorEntity> doctors;
@@ -33,3 +37,25 @@ class onDoctorsearchByName extends DoctorEvent {
   @override
   List<Object> get props => [doctorName];
 }
+
+class onDoctorsearchByspeciality extends DoctorEvent {
+  final String speciality;
+  final List<DoctorEntity> doctors;
+  onDoctorsearchByspeciality({required this.doctors, required this.speciality});
+
+  @override
+  List<Object> get props => [speciality];
+}
+
+class onDoctorsearchByWilaya extends DoctorEvent {
+  final String wilaya;
+
+  onDoctorsearchByWilaya({required this.wilaya});
+
+  @override
+  List<Object> get props => [wilaya];
+}
+
+class DoctorinitialEvent extends DoctorEvent {}
+
+final class onSeeAllDoctors extends DoctorEvent {}

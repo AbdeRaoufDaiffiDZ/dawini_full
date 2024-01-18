@@ -4,7 +4,7 @@ class UserTypeUseCase {
   final IntroductionRepository repository;
 
   UserTypeUseCase({required this.repository});
-  Future<String> execute() {
+  Stream<String> execute() {
     return repository.getType();
   }
 }

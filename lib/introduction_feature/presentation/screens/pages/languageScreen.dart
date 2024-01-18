@@ -5,7 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LanguageScreen extends StatefulWidget {
   final String Language;
   // ignore: non_constant_identifier_names
-  const LanguageScreen({super.key, required this.Language});
+  const LanguageScreen({
+    super.key,
+    required this.Language,
+  });
 
   @override
   State<LanguageScreen> createState() => _LanguageScreenState();
@@ -15,11 +18,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     final IntroductionBloc bloc = BlocProvider.of<IntroductionBloc>(context);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Text and Button Example'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,14 +40,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 ),
               );
             }),
-            SizedBox(height: 20.0), // Add spacing between text and button
-            ElevatedButton(
-              onPressed: () {
-                // Add the action you want to perform when the button is pressed
-                // For example, you can show a dialog or navigate to another screen.
-                bloc.add(NextPage(id: 2));
-              },
-              child: Text('next'),
+            SizedBox(
+              height: 0.05,
             ),
             MaterialButton(
               color: "Arabic" == widget.Language ? Colors.green : Colors.grey,
@@ -76,6 +69,18 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 bloc.add(onLanguageChoose(language: "French"));
               },
               child: Text('French'),
+            ),
+            SizedBox(height: 0.05), // Add spacing between text and button
+            SizedBox(
+              width: 0.5,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Add the action you want to perform when the button is pressed
+                  // For example, you can show a dialog or navigate to another screen.
+                  bloc.add(NextPage(id: 2));
+                },
+                child: Text('next'),
+              ),
             ),
           ],
         ),

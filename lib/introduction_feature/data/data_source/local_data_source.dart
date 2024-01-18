@@ -8,7 +8,7 @@ abstract class LocalDataSource {
   Stream<String> choosenLanguage();
 
   Future<String> setType(String type);
-  Future<String> getType();
+  Stream<String> getType();
 }
 
 class LocalDataSourceImpl extends LocalDataSource {
@@ -67,12 +67,12 @@ class LocalDataSourceImpl extends LocalDataSource {
   }
 
   @override
-  Future<String> getType() async {
+  Stream<String> getType() async* {
     final String? status = prefs.getString('type');
     if (status == null) {
-      return 'noon';
+      yield 'noon';
     } else {
-      return status;
+      yield status;
     }
   }
 }

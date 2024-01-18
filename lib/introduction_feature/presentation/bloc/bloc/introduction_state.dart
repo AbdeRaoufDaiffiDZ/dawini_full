@@ -29,4 +29,11 @@ final class TypeState extends IntroductionState {
   List<Object> get props => [type];
 }
 
-final class IgnoreIntorductionState extends IntroductionState {}
+final class IgnoreIntorductionState extends IntroductionState {
+  final String Screen;
+
+  IgnoreIntorductionState({required this.Screen});
+
+  @override
+  List<Object> get props => [Screen];
+}
